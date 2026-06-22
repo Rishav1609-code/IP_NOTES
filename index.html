@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RM NOTES — B.Tech Research Methodology Portal v2.0</title>
+<title>IP NOTES — B.Tech Image Processing Portal v2.0</title>
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,21 +18,21 @@
   --bg: #0a0a0a;
   --bg2: #0d0d0d;
   --bg3: #111111;
-  --glass: rgba(255,0,170,0.03);
-  --green: #ff00aa;
-  --green-dim: #cc0088;
-  --cyan: #00e5ff;
+  --glass: rgba(0,136,255,0.03);
+  --green: #0088ff;
+  --green-dim: #0055cc;
+  --cyan: #e0e0e0;
   --red: #ff0040;
   --orange: #ff5500;
   --pink: #ff00aa;
   --yellow: #ffcc00;
   --text: #d8d8d8;
   --text-dim: #666;
-  --border: rgba(255,0,170,0.12);
-  --border-cyan: rgba(0,229,255,0.15);
+  --border: rgba(0,136,255,0.12);
+  --border-cyan: rgba(224,224,224,0.15);
   --font: 'JetBrains Mono', 'Fira Code', monospace;
-  --glow-g: 0 0 20px rgba(255,0,170,0.45), 0 0 50px rgba(255,0,170,0.15);
-  --glow-c: 0 0 20px rgba(0,229,255,0.45), 0 0 50px rgba(0,229,255,0.15);
+  --glow-g: 0 0 20px rgba(0,136,255,0.45), 0 0 50px rgba(0,136,255,0.15);
+  --glow-c: 0 0 20px rgba(224,224,224,0.45), 0 0 50px rgba(224,224,224,0.15);
   --glow-p: 0 0 20px rgba(255,0,170,0.45);
   --glow-o: 0 0 20px rgba(255,85,0,0.45);
 }
@@ -127,7 +127,7 @@ button{font-family:var(--font)}
 /* =============================================
    SCANLINES
 ============================================= */
-.scanlines{position:fixed;inset:0;pointer-events:none;z-index:998;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(255,0,170,.012) 2px,rgba(255,0,170,.012) 4px)}
+.scanlines{position:fixed;inset:0;pointer-events:none;z-index:998;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,136,255,.012) 2px,rgba(0,136,255,.012) 4px)}
 
 /* =============================================
    NOISE OVERLAY
@@ -147,18 +147,18 @@ nav{position:fixed;top:0;left:0;right:0;z-index:600;display:flex;align-items:cen
 .nav-links a:hover::after{width:100%}
 .nav-right{display:flex;align-items:center;gap:12px}
 .nav-search-btn{background:none;border:1px solid var(--border);color:var(--text-dim);font-size:11px;padding:6px 18px;cursor:pointer;letter-spacing:2px;transition:all .25s;text-transform:uppercase}
-.nav-search-btn:hover{border-color:var(--green);color:var(--green);box-shadow:0 0 12px rgba(255,0,170,.25)}
+.nav-search-btn:hover{border-color:var(--green);color:var(--green);box-shadow:0 0 12px rgba(0,136,255,.25)}
 
 /* Theme Toggle Button */
-.theme-toggle{position:relative;width:52px;height:28px;border-radius:14px;border:1px solid var(--border);background:rgba(255,0,170,.06);cursor:pointer;padding:0;transition:all .4s ease;flex-shrink:0;overflow:hidden}
-.theme-toggle::before{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:var(--green);transition:all .4s cubic-bezier(.68,-.55,.27,1.55);box-shadow:0 0 8px rgba(255,0,170,.4)}
+.theme-toggle{position:relative;width:52px;height:28px;border-radius:14px;border:1px solid var(--border);background:rgba(0,136,255,.06);cursor:pointer;padding:0;transition:all .4s ease;flex-shrink:0;overflow:hidden}
+.theme-toggle::before{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:var(--green);transition:all .4s cubic-bezier(.68,-.55,.27,1.55);box-shadow:0 0 8px rgba(0,136,255,.4)}
 .theme-toggle.light::before{left:27px;background:var(--yellow);box-shadow:0 0 8px rgba(255,180,0,.5)}
 .theme-toggle .toggle-icon{position:absolute;top:50%;transform:translateY(-50%);font-size:13px;line-height:1;transition:opacity .3s ease}
 .toggle-icon.moon{left:7px;opacity:1}
 .toggle-icon.sun{right:6px;opacity:0}
 .theme-toggle.light .toggle-icon.moon{opacity:0}
 .theme-toggle.light .toggle-icon.sun{opacity:1}
-.theme-toggle:hover{border-color:var(--green);box-shadow:0 0 12px rgba(255,0,170,.2)}
+.theme-toggle:hover{border-color:var(--green);box-shadow:0 0 12px rgba(0,136,255,.2)}
 body.light-mode .theme-toggle{background:rgba(0,137,74,.06);border-color:rgba(0,137,74,.2)}
 body.light-mode .theme-toggle:hover{border-color:var(--green);box-shadow:0 0 12px rgba(0,137,74,.15)}
 
@@ -169,10 +169,10 @@ body.light-mode .theme-toggle:hover{border-color:var(--green);box-shadow:0 0 12p
 .hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:55px 55px;transform:perspective(600px) rotateX(28deg) scale(1.6) translateY(8%);transform-origin:bottom center;opacity:.35;pointer-events:none}
 .hero-grid-fade{position:absolute;inset:0;background:linear-gradient(to top,var(--bg) 0%,transparent 50%);pointer-events:none}
 .hero-inner{position:relative;z-index:2;text-align:center;max-width:900px}
-.hero-badge{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(0,229,255,.4);color:var(--cyan);font-size:9px;letter-spacing:5px;padding:5px 18px;margin-bottom:28px;animation:borderPulse 3s ease-in-out infinite}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(224,224,224,.4);color:var(--cyan);font-size:9px;letter-spacing:5px;padding:5px 18px;margin-bottom:28px;animation:borderPulse 3s ease-in-out infinite}
 .hero-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink 1.2s step-end infinite;box-shadow:0 0 6px var(--green)}
-@keyframes borderPulse{0%,100%{box-shadow:0 0 6px rgba(0,229,255,.3)}50%{box-shadow:0 0 20px rgba(0,229,255,.5),0 0 40px rgba(0,229,255,.2)}}
-.hero-title{font-size:clamp(52px,9vw,108px);font-weight:700;letter-spacing:10px;line-height:1;margin-bottom:24px;color:var(--green);text-shadow:0 0 40px rgba(255,0,170,.5);animation:glitchMain 5s infinite}
+@keyframes borderPulse{0%,100%{box-shadow:0 0 6px rgba(224,224,224,.3)}50%{box-shadow:0 0 20px rgba(224,224,224,.5),0 0 40px rgba(224,224,224,.2)}}
+.hero-title{font-size:clamp(52px,9vw,108px);font-weight:700;letter-spacing:10px;line-height:1;margin-bottom:24px;color:var(--green);text-shadow:0 0 40px rgba(0,136,255,.5);animation:glitchMain 5s infinite}
 .hero-title::before,.hero-title::after{content:attr(data-text);position:absolute;top:0;left:50%;transform:translateX(-50%);width:100%}
 .hero-title{position:relative;display:inline-block}
 .hero-title::before{color:var(--cyan);animation:glitchBefore 5s infinite;clip-path:polygon(0 0,100% 0,100% 33%,0 33%)}
@@ -186,7 +186,7 @@ body.light-mode .theme-toggle:hover{border-color:var(--green);box-shadow:0 0 12p
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
 
 /* Terminal Boot */
-#boot-terminal{width:min(620px,92vw);margin:0 auto 44px;background:rgba(0,0,0,.75);border:1px solid rgba(255,0,170,.2);border-radius:3px;padding:20px 24px;text-align:left;font-size:12px;line-height:1.9;box-shadow:0 0 40px rgba(255,0,170,.08),inset 0 0 40px rgba(0,0,0,.5)}
+#boot-terminal{width:min(620px,92vw);margin:0 auto 44px;background:rgba(0,0,0,.75);border:1px solid rgba(0,136,255,.2);border-radius:3px;padding:20px 24px;text-align:left;font-size:12px;line-height:1.9;box-shadow:0 0 40px rgba(0,136,255,.08),inset 0 0 40px rgba(0,0,0,.5)}
 #boot-terminal .tline{color:var(--text-dim);opacity:0;transition:opacity .2s}
 #boot-terminal .tline.visible{opacity:1}
 #boot-terminal .tline.ok{color:var(--green)}
@@ -195,15 +195,15 @@ body.light-mode .theme-toggle:hover{border-color:var(--green);box-shadow:0 0 12p
 
 .hero-stats{display:flex;gap:48px;justify-content:center;flex-wrap:wrap;margin-bottom:40px}
 .stat{text-align:center}
-.stat-num{font-size:32px;font-weight:700;color:var(--green);text-shadow:0 0 20px rgba(255,0,170,.5);display:block}
+.stat-num{font-size:32px;font-weight:700;color:var(--green);text-shadow:0 0 20px rgba(0,136,255,.5);display:block}
 .stat-label{font-size:9px;letter-spacing:3px;color:var(--text-dim);text-transform:uppercase;display:block;margin-top:4px}
 
 .hero-cta{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
 .btn{display:inline-block;font-family:var(--font);font-size:11px;letter-spacing:3px;text-transform:uppercase;padding:12px 36px;cursor:pointer;transition:all .3s;border:1px solid}
 .btn-g{color:var(--green);border-color:var(--green);background:transparent}
-.btn-g:hover{background:rgba(255,0,170,.08);box-shadow:var(--glow-g)}
+.btn-g:hover{background:rgba(0,136,255,.08);box-shadow:var(--glow-g)}
 .btn-c{color:var(--cyan);border-color:var(--cyan);background:transparent}
-.btn-c:hover{background:rgba(0,229,255,.08);box-shadow:var(--glow-c)}
+.btn-c:hover{background:rgba(224,224,224,.08);box-shadow:var(--glow-c)}
 
 /* =============================================
    SECTION HEADERS
@@ -226,13 +226,13 @@ body.light-mode .theme-toggle:hover{border-color:var(--green);box-shadow:0 0 12p
 .card{position:relative;background:rgba(0,0,0,.5);border:1px solid var(--border);padding:28px;cursor:pointer;overflow:hidden;transition:all .35s cubic-bezier(.175,.885,.32,1.1);transform-style:preserve-3d;will-change:transform;opacity:0;animation:fadeUp .6s ease forwards}
 .card:nth-child(1){animation-delay:.05s}.card:nth-child(2){animation-delay:.15s}.card:nth-child(3){animation-delay:.25s}.card:nth-child(4){animation-delay:.35s}.card:nth-child(5){animation-delay:.45s}.card:nth-child(6){animation-delay:.55s}.card:nth-child(7){animation-delay:.65s}.card:nth-child(8){animation-delay:.75s}.card:nth-child(9){animation-delay:.85s}
 @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
-.card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at top left,rgba(255,0,170,.06),transparent 70%);opacity:0;transition:opacity .35s}
+.card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at top left,rgba(0,136,255,.06),transparent 70%);opacity:0;transition:opacity .35s}
 .card:hover::before{opacity:1}
 .card::after{content:'';position:absolute;top:0;right:0;border-style:solid;border-width:0 22px 22px 0;border-color:transparent transparent transparent transparent;transition:border-color .3s}
-.card.c-green:hover{border-color:rgba(255,0,170,.4);box-shadow:0 8px 40px rgba(255,0,170,.12),inset 0 0 40px rgba(255,0,170,.02);transform:translateY(-5px)}
+.card.c-green:hover{border-color:rgba(0,136,255,.4);box-shadow:0 8px 40px rgba(0,136,255,.12),inset 0 0 40px rgba(0,136,255,.02);transform:translateY(-5px)}
 .card.c-green:hover::after{border-color:transparent var(--green) transparent transparent}
-.card.c-cyan:hover{border-color:rgba(0,229,255,.4);box-shadow:0 8px 40px rgba(0,229,255,.12),inset 0 0 40px rgba(0,229,255,.02);transform:translateY(-5px)}
-.card.c-cyan::before{background:radial-gradient(ellipse at top left,rgba(0,229,255,.06),transparent 70%)}
+.card.c-cyan:hover{border-color:rgba(224,224,224,.4);box-shadow:0 8px 40px rgba(224,224,224,.12),inset 0 0 40px rgba(224,224,224,.02);transform:translateY(-5px)}
+.card.c-cyan::before{background:radial-gradient(ellipse at top left,rgba(224,224,224,.06),transparent 70%)}
 .card.c-cyan:hover::after{border-color:transparent var(--cyan) transparent transparent}
 .card.c-pink:hover{border-color:rgba(255,0,170,.4);box-shadow:0 8px 40px rgba(255,0,170,.12);transform:translateY(-5px)}
 .card.c-pink::before{background:radial-gradient(ellipse at top left,rgba(255,0,170,.06),transparent 70%)}
@@ -248,8 +248,8 @@ body.light-mode .theme-toggle:hover{border-color:var(--green);box-shadow:0 0 12p
 .c-pink .mod-code{color:var(--pink)}
 .c-orange .mod-code{color:var(--orange)}
 .badge{font-size:8px;letter-spacing:2px;padding:3px 10px;border:1px solid;text-transform:uppercase}
-.badge.core{color:var(--green);border-color:rgba(255,0,170,.5)}
-.badge.inter{color:var(--cyan);border-color:rgba(0,229,255,.5)}
+.badge.core{color:var(--green);border-color:rgba(0,136,255,.5)}
+.badge.inter{color:var(--cyan);border-color:rgba(224,224,224,.5)}
 .badge.adv{color:var(--pink);border-color:rgba(255,0,170,.5)}
 .badge.expert{color:var(--orange);border-color:rgba(255,85,0,.5)}
 
@@ -272,8 +272,8 @@ body.light-mode .theme-toggle:hover{border-color:var(--green);box-shadow:0 0 12p
 .c-pink .topic-count b{color:var(--pink)}
 .c-orange .topic-count b{color:var(--orange)}
 .enter-btn{background:transparent;border:1px solid;font-family:var(--font);font-size:9px;letter-spacing:3px;padding:7px 22px;cursor:pointer;text-transform:uppercase;transition:all .25s}
-.enter-btn.eg{color:var(--green);border-color:rgba(255,0,170,.4)}.enter-btn.eg:hover{background:rgba(255,0,170,.1);box-shadow:0 0 12px rgba(255,0,170,.3)}
-.enter-btn.ec{color:var(--cyan);border-color:rgba(0,229,255,.4)}.enter-btn.ec:hover{background:rgba(0,229,255,.1);box-shadow:0 0 12px rgba(0,229,255,.3)}
+.enter-btn.eg{color:var(--green);border-color:rgba(0,136,255,.4)}.enter-btn.eg:hover{background:rgba(0,136,255,.1);box-shadow:0 0 12px rgba(0,136,255,.3)}
+.enter-btn.ec{color:var(--cyan);border-color:rgba(224,224,224,.4)}.enter-btn.ec:hover{background:rgba(224,224,224,.1);box-shadow:0 0 12px rgba(224,224,224,.3)}
 .enter-btn.ep{color:var(--pink);border-color:rgba(255,0,170,.4)}.enter-btn.ep:hover{background:rgba(255,0,170,.1);box-shadow:0 0 12px rgba(255,0,170,.3)}
 .enter-btn.eo{color:var(--orange);border-color:rgba(255,85,0,.4)}.enter-btn.eo:hover{background:rgba(255,85,0,.1);box-shadow:0 0 12px rgba(255,85,0,.3)}
 
@@ -289,9 +289,9 @@ body.light-mode .theme-toggle:hover{border-color:var(--green);box-shadow:0 0 12p
 #viewer{position:fixed;inset:0;width:100vw;height:100vh;background:rgba(9,9,9,.98);z-index:800;transform:translateY(100%);transition:transform .4s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;backdrop-filter:blur(28px)}
 #viewer.open{transform:translateY(0)}
 
-.viewer-head{padding:16px 28px;border-bottom:1px solid rgba(255,0,170,.08);display:flex;justify-content:space-between;align-items:center;flex-shrink:0;background:rgba(0,0,0,.6)}
+.viewer-head{padding:16px 28px;border-bottom:1px solid rgba(0,136,255,.08);display:flex;justify-content:space-between;align-items:center;flex-shrink:0;background:rgba(0,0,0,.6)}
 .viewer-bc{font-size:10px;color:var(--text-dim);letter-spacing:1px}
-.viewer-bc .bc-sep{margin:0 8px;color:rgba(255,0,170,.3)}
+.viewer-bc .bc-sep{margin:0 8px;color:rgba(0,136,255,.3)}
 .viewer-bc .bc-active{color:var(--green)}
 .viewer-close{background:none;border:1px solid rgba(255,255,255,.1);color:var(--text-dim);font-size:16px;width:34px;height:34px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .25s}
 .viewer-close:hover{border-color:var(--red);color:var(--red);box-shadow:0 0 10px rgba(255,0,64,.3)}
@@ -306,14 +306,14 @@ body.light-mode .theme-toggle:hover{border-color:var(--green);box-shadow:0 0 12p
 ============================================= */
 #index-overlay{position:fixed;top:0;right:0;width:min(920px,100vw);height:100vh;background:rgba(9,9,9,.98);border-left:1px solid var(--border);z-index:750;transform:translateX(100%);transition:transform .4s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;backdrop-filter:blur(28px)}
 #index-overlay.open{transform:translateX(0)}
-.index-head{padding:16px 28px;border-bottom:1px solid rgba(255,0,170,.08);display:flex;justify-content:space-between;align-items:center;flex-shrink:0;background:rgba(0,0,0,.6)}
+.index-head{padding:16px 28px;border-bottom:1px solid rgba(0,136,255,.08);display:flex;justify-content:space-between;align-items:center;flex-shrink:0;background:rgba(0,0,0,.6)}
 .index-bc{font-size:10px;color:var(--text-dim);letter-spacing:1px}
 .index-close{background:none;border:1px solid rgba(255,255,255,.1);color:var(--text-dim);font-size:16px;width:34px;height:34px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .25s}
 .index-close:hover{border-color:var(--red);color:var(--red);box-shadow:0 0 10px rgba(255,0,64,.3)}
 .index-body{flex:1;overflow-y:auto;padding:40px 44px}
 .index-list{display:flex;flex-direction:column;gap:12px;margin-top:20px}
-.index-item{background:rgba(255,0,170,.05);border:1px solid rgba(255,0,170,.15);padding:16px 20px;color:var(--text);font-size:14px;cursor:pointer;transition:all .25s;border-radius:4px;line-height:1.6}
-.index-item:hover{background:rgba(255,0,170,.1);border-color:var(--green);transform:translateX(5px)}
+.index-item{background:rgba(0,136,255,.05);border:1px solid rgba(0,136,255,.15);padding:16px 20px;color:var(--text);font-size:14px;cursor:pointer;transition:all .25s;border-radius:4px;line-height:1.6}
+.index-item:hover{background:rgba(0,136,255,.1);border-color:var(--green);transform:translateX(5px)}
 
 /* =============================================
    RENDERED MARKDOWN
@@ -327,18 +327,18 @@ body.light-mode .theme-toggle:hover{border-color:var(--green);box-shadow:0 0 12p
 .md p{margin-bottom:.9em}
 .md strong{color:var(--green);font-weight:700}
 .md em{color:var(--cyan);font-style:italic}
-.md code{font-family:var(--font);background:rgba(255,0,170,.07);border:1px solid rgba(255,0,170,.12);color:var(--green);padding:2px 7px;border-radius:2px;font-size:12.5px}
-.md pre{background:#0d1117;border:1px solid rgba(255,0,170,.12);border-radius:3px;padding:20px 22px;overflow-x:auto;margin:1.4em 0}
+.md code{font-family:var(--font);background:rgba(0,136,255,.07);border:1px solid rgba(0,136,255,.12);color:var(--green);padding:2px 7px;border-radius:2px;font-size:12.5px}
+.md pre{background:#0d1117;border:1px solid rgba(0,136,255,.12);border-radius:3px;padding:20px 22px;overflow-x:auto;margin:1.4em 0}
 .md pre code{background:none;border:none;padding:0;color:inherit;font-size:12.5px}
-.md blockquote{border-left:3px solid var(--cyan);padding:10px 18px;margin:1.4em 0;background:rgba(0,229,255,.04);color:var(--text-dim);font-style:italic}
+.md blockquote{border-left:3px solid var(--cyan);padding:10px 18px;margin:1.4em 0;background:rgba(224,224,224,.04);color:var(--text-dim);font-style:italic}
 .md table{width:100%;border-collapse:collapse;margin:1.4em 0;font-size:12.5px;display:block;overflow-x:auto}
-.md th{background:rgba(255,0,170,.07);color:var(--green);font-weight:700;padding:10px 14px;border:1px solid rgba(255,0,170,.15);text-align:left;letter-spacing:.5px;white-space:nowrap}
+.md th{background:rgba(0,136,255,.07);color:var(--green);font-weight:700;padding:10px 14px;border:1px solid rgba(0,136,255,.15);text-align:left;letter-spacing:.5px;white-space:nowrap}
 .md td{padding:8px 14px;border:1px solid rgba(255,255,255,.05);color:var(--text);vertical-align:top}
 .md tr:nth-child(even) td{background:rgba(255,255,255,.015)}
-.md tr:hover td{background:rgba(255,0,170,.03)}
+.md tr:hover td{background:rgba(0,136,255,.03)}
 .md ul,.md ol{padding-left:22px;margin:.7em 0}
 .md li{margin:5px 0}
-.md hr{border:none;border-top:1px solid rgba(255,0,170,.08);margin:1.8em 0}
+.md hr{border:none;border-top:1px solid rgba(0,136,255,.08);margin:1.8em 0}
 .md a{color:var(--cyan)}
 .md a:hover{text-decoration:underline}
 
@@ -353,9 +353,9 @@ body.light-mode .theme-toggle:hover{border-color:var(--green);box-shadow:0 0 12p
 #search-input{flex:1;background:transparent;border:none;outline:none;font-family:var(--font);font-size:16px;color:var(--text);caret-color:var(--green)}
 #search-input::placeholder{color:var(--text-dim)}
 .search-esc{font-size:9px;color:var(--text-dim);letter-spacing:2px;padding:3px 8px;border:1px solid rgba(255,255,255,.1);white-space:nowrap}
-.search-results{background:rgba(10,10,10,.98);border:1px solid rgba(255,0,170,.15);border-top:none;max-height:440px;overflow-y:auto}
+.search-results{background:rgba(10,10,10,.98);border:1px solid rgba(0,136,255,.15);border-top:none;max-height:440px;overflow-y:auto}
 .s-result{padding:12px 20px;cursor:pointer;border-bottom:1px solid rgba(255,255,255,.03);display:flex;align-items:center;gap:14px;transition:background .15s}
-.s-result:hover,.s-result.focused{background:rgba(255,0,170,.06)}
+.s-result:hover,.s-result.focused{background:rgba(0,136,255,.06)}
 .s-mod{font-size:9px;color:var(--green);letter-spacing:2px;min-width:55px;flex-shrink:0}
 .s-topic{font-size:13px;color:var(--text)}
 .s-empty{padding:20px;text-align:center;color:var(--text-dim);font-size:12px}
@@ -364,18 +364,18 @@ body.light-mode .theme-toggle:hover{border-color:var(--green);box-shadow:0 0 12p
    DRIVE LINK BANNER
 ============================================= */
 #drive-banner{position:relative;z-index:1;padding:0 48px;max-width:1480px;margin:0 auto}
-.drive-card{position:relative;display:flex;align-items:center;gap:28px;padding:28px 36px;background:rgba(0,229,255,.03);border:1px solid var(--border-cyan);overflow:hidden;transition:all .35s ease}
-.drive-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at left,rgba(0,229,255,.06),transparent 60%);opacity:0;transition:opacity .35s;pointer-events:none}
+.drive-card{position:relative;display:flex;align-items:center;gap:28px;padding:28px 36px;background:rgba(224,224,224,.03);border:1px solid var(--border-cyan);overflow:hidden;transition:all .35s ease}
+.drive-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at left,rgba(224,224,224,.06),transparent 60%);opacity:0;transition:opacity .35s;pointer-events:none}
 .drive-card:hover::before{opacity:1}
-.drive-card:hover{border-color:rgba(0,229,255,.35);box-shadow:0 4px 32px rgba(0,229,255,.08)}
-.drive-icon{flex-shrink:0;width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;background:rgba(0,229,255,.08);border:1px solid rgba(0,229,255,.2);transition:all .35s}
-.drive-card:hover .drive-icon{box-shadow:var(--glow-c);border-color:rgba(0,229,255,.4)}
+.drive-card:hover{border-color:rgba(224,224,224,.35);box-shadow:0 4px 32px rgba(224,224,224,.08)}
+.drive-icon{flex-shrink:0;width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;background:rgba(224,224,224,.08);border:1px solid rgba(224,224,224,.2);transition:all .35s}
+.drive-card:hover .drive-icon{box-shadow:var(--glow-c);border-color:rgba(224,224,224,.4)}
 .drive-info{flex:1;min-width:0}
 .drive-label{font-size:9px;letter-spacing:4px;color:var(--cyan);text-transform:uppercase;margin-bottom:4px}
 .drive-title{font-size:16px;font-weight:700;color:#eee;letter-spacing:.5px;margin-bottom:4px}
 .drive-desc{font-size:11px;color:var(--text-dim);line-height:1.6}
-.drive-btn{flex-shrink:0;display:inline-flex;align-items:center;gap:8px;font-family:var(--font);font-size:10px;letter-spacing:3px;text-transform:uppercase;padding:11px 28px;border:1px solid rgba(0,229,255,.4);color:var(--cyan);background:transparent;cursor:pointer;transition:all .3s;text-decoration:none;white-space:nowrap;position:relative;z-index:1}
-.drive-btn:hover{background:rgba(0,229,255,.1);box-shadow:var(--glow-c);border-color:var(--cyan);color:var(--cyan)}
+.drive-btn{flex-shrink:0;display:inline-flex;align-items:center;gap:8px;font-family:var(--font);font-size:10px;letter-spacing:3px;text-transform:uppercase;padding:11px 28px;border:1px solid rgba(224,224,224,.4);color:var(--cyan);background:transparent;cursor:pointer;transition:all .3s;text-decoration:none;white-space:nowrap;position:relative;z-index:1}
+.drive-btn:hover{background:rgba(224,224,224,.1);box-shadow:var(--glow-c);border-color:var(--cyan);color:var(--cyan)}
 .drive-btn .arrow{font-size:14px;transition:transform .25s}
 .drive-btn:hover .arrow{transform:translateX(3px)}
 body.light-mode .drive-card{background:rgba(0,119,170,.03)}
@@ -394,20 +394,20 @@ body.light-mode .drive-icon{background:rgba(0,119,170,.07);border-color:rgba(0,1
 #popup-overlay.open{display:flex;opacity:1}
 .popup-box{position:relative;width:min(480px,90vw);background:rgba(10,10,10,.96);border:1px solid var(--border);padding:36px 32px 28px;animation:popupIn .5s cubic-bezier(.175,.885,.32,1.2) forwards;transform:scale(.85);opacity:0}
 @keyframes popupIn{to{transform:scale(1);opacity:1}}
-.popup-badge{display:inline-flex;align-items:center;gap:6px;font-size:9px;letter-spacing:4px;color:var(--cyan);text-transform:uppercase;border:1px solid rgba(0,229,255,.3);padding:4px 14px;margin-bottom:20px}
+.popup-badge{display:inline-flex;align-items:center;gap:6px;font-size:9px;letter-spacing:4px;color:var(--cyan);text-transform:uppercase;border:1px solid rgba(224,224,224,.3);padding:4px 14px;margin-bottom:20px}
 .popup-badge .pulse{width:6px;height:6px;border-radius:50%;background:var(--cyan);animation:blink 1.2s step-end infinite;box-shadow:0 0 6px var(--cyan)}
 .popup-title{font-size:20px;font-weight:700;color:var(--green);letter-spacing:1px;margin-bottom:8px}
 .popup-sub{font-size:11px;color:var(--text-dim);margin-bottom:24px;line-height:1.7}
 .popup-features{display:flex;flex-direction:column;gap:14px;margin-bottom:28px}
 .popup-feat{display:flex;align-items:flex-start;gap:16px;padding:16px;border:1px solid rgba(255,255,255,.05);background:rgba(255,255,255,.02);transition:all .25s}
-.popup-feat:hover{border-color:var(--border);background:rgba(255,0,170,.02)}
-.popup-feat-icon{flex-shrink:0;width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;background:rgba(255,0,170,.06);border:1px solid rgba(255,0,170,.15)}
-.popup-feat:nth-child(2) .popup-feat-icon{background:rgba(0,229,255,.06);border-color:rgba(0,229,255,.15)}
+.popup-feat:hover{border-color:var(--border);background:rgba(0,136,255,.02)}
+.popup-feat-icon{flex-shrink:0;width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;background:rgba(0,136,255,.06);border:1px solid rgba(0,136,255,.15)}
+.popup-feat:nth-child(2) .popup-feat-icon{background:rgba(224,224,224,.06);border-color:rgba(224,224,224,.15)}
 .popup-feat-text{flex:1}
 .popup-feat-name{font-size:13px;font-weight:700;color:#eee;margin-bottom:3px}
 .popup-feat-desc{font-size:11px;color:var(--text-dim);line-height:1.6}
 .popup-dismiss{width:100%;font-family:var(--font);font-size:11px;letter-spacing:3px;text-transform:uppercase;padding:12px 0;border:1px solid var(--green);color:var(--green);background:transparent;cursor:pointer;transition:all .3s}
-.popup-dismiss:hover{background:rgba(255,0,170,.08);box-shadow:var(--glow-g)}
+.popup-dismiss:hover{background:rgba(0,136,255,.08);box-shadow:var(--glow-g)}
 .popup-close{position:absolute;top:12px;right:14px;background:none;border:none;color:var(--text-dim);font-size:18px;cursor:pointer;transition:color .2s;padding:4px}
 .popup-close:hover{color:var(--red)}
 .popup-ver{text-align:center;margin-top:14px;font-size:9px;color:rgba(255,255,255,.15);letter-spacing:2px}
@@ -424,10 +424,10 @@ body.light-mode .popup-feat-name{color:#1a1a2e}
    FOOTER
 ============================================= */
 footer{position:relative;z-index:1;padding:60px 48px 40px;border-top:1px solid var(--border);margin-top:60px;text-align:center}
-.footer-ascii{color:rgba(255,0,170,.18);font-size:9px;line-height:1.3;white-space:pre;margin-bottom:36px;overflow-x:auto;letter-spacing:1px}
+.footer-ascii{color:rgba(0,136,255,.18);font-size:9px;line-height:1.3;white-space:pre;margin-bottom:36px;overflow-x:auto;letter-spacing:1px}
 .footer-stats{display:flex;justify-content:center;gap:48px;flex-wrap:wrap;margin-bottom:28px}
 .f-stat{text-align:center}
-.f-val{font-size:22px;font-weight:700;color:var(--green);text-shadow:0 0 12px rgba(255,0,170,.4);display:block}
+.f-val{font-size:22px;font-weight:700;color:var(--green);text-shadow:0 0 12px rgba(0,136,255,.4);display:block}
 .f-lbl{font-size:9px;letter-spacing:3px;color:var(--text-dim);text-transform:uppercase;display:block;margin-top:4px}
 .footer-copy{font-size:10px;color:rgba(255,255,255,.2);letter-spacing:1px;line-height:2}
 .footer-copy .fg{color:var(--green)}
@@ -468,7 +468,7 @@ footer{position:relative;z-index:1;padding:60px 48px 40px;border-top:1px solid v
 
 <!-- NAVBAR -->
 <nav>
-  <div class="nav-logo"><span class="nav-logo-bracket">[</span>RM<span class="nav-logo-bracket">]</span>&nbsp;NOTES</div>
+  <div class="nav-logo"><span class="nav-logo-bracket">[</span>IP<span class="nav-logo-bracket">]</span>&nbsp;NOTES</div>
   <ul class="nav-links">
     <li><a href="#hero">HOME</a></li>
     <li><a href="#modules">MODULES</a></li>
@@ -489,17 +489,17 @@ footer{position:relative;z-index:1;padding:60px 48px 40px;border-top:1px solid v
   <div class="hero-grid-fade"></div>
   <div class="hero-inner">
     <div class="hero-badge"><span class="dot"></span> ACCESS GRANTED &nbsp;// &nbsp;SESSION ACTIVE</div>
-    <div class="hero-title glitch" data-text="RESEARCH METHODOLOGY NOTES">RESEARCH METHODOLOGY NOTES</div>
-    <div class="hero-sub">B.Tech 6th Semester — Research Methodology</div>
-    <p class="hero-tagline">ACCESS GRANTED // RM STUDY PORTAL v2.0<span class="cursor-blink">_</span></p>
+    <div class="hero-title glitch" data-text="IMAGE PROCESSING NOTES">IMAGE PROCESSING NOTES</div>
+    <div class="hero-sub">B.Tech 6th Semester — Image Processing</div>
+    <p class="hero-tagline">ACCESS GRANTED // IP STUDY PORTAL v2.0<span class="cursor-blink">_</span></p>
 
     <div id="boot-terminal">
-      <div class="tline info" id="bl-0">&gt; INITIALIZING RESEARCH METHODOLOGY ENGINE...</div>
-      <div class="tline" id="bl-1">&gt; Scanning literature review... <span class="ok">[ 4 MODULES FOUND ]</span></div>
-      <div class="tline" id="bl-2">&gt; Formulating hypothesis... <span class="ok">[ OK ]</span></div>
-      <div class="tline" id="bl-3">&gt; Validating research design... <span class="warn">[ WARN: Sample size is small ]</span></div>
-      <div class="tline" id="bl-4">&gt; Collecting primary data... <span class="ok">[ SURVEY ACTIVE ]</span></div>
-      <div class="tline" id="bl-5">&gt; Analyzing statistical data... <span class="ok">[ ANOVA TEST ENGAGED ]</span></div>
+      <div class="tline info" id="bl-0">&gt; INITIALIZING IMAGE PROCESSING ENGINE...</div>
+      <div class="tline" id="bl-1">&gt; Loading image matrix... <span class="ok">[ 6 MODULES FOUND ]</span></div>
+      <div class="tline" id="bl-2">&gt; Calibrating RGB sensors... <span class="ok">[ OK ]</span></div>
+      <div class="tline" id="bl-3">&gt; Applying spatial filters... <span class="warn">[ WARN: High noise detected in Module 1 ]</span></div>
+      <div class="tline" id="bl-4">&gt; Enhancing contrast... <span class="ok">[ HISTOGRAM EQUALIZATION ACTIVE ]</span></div>
+      <div class="tline" id="bl-5">&gt; Restoring degraded image... <span class="ok">[ WIENER FILTER ENGAGED ]</span></div>
       <div class="tline info" id="bl-6">&gt; SYSTEM READY — Good luck, EveryONE!..</div>
     </div>
 
@@ -523,10 +523,10 @@ footer{position:relative;z-index:1;padding:60px 48px 40px;border-top:1px solid v
     <div class="drive-icon">&#x1F4C4;</div>
     <div class="drive-info">
       <div class="drive-label">// PDF Resources</div>
-      <div class="drive-title">Complete RM Notes &mdash; PDF Download</div>
+      <div class="drive-title">Complete IP Notes &mdash; PDF Download</div>
       <div class="drive-desc">Access the full handwritten/typed PDF notes for all modules. Download for offline study &amp; print.</div>
     </div>
-    <a href="https://drive.google.com/drive/folders/1w7rQBWUfke6JfR9Dslu-l7-L4Z3awfk2?usp=sharing" target="_blank" rel="noopener" class="drive-btn" id="drive-link">
+    <a href="https://drive.google.com/drive/folders/1PoL2mQE0EHnmifKcE_t156BLnfWvbS4f?usp=sharing" target="_blank" rel="noopener" class="drive-btn" id="drive-link">
       <span>OPEN DRIVE</span>
       <span class="arrow">&rarr;</span>
     </a>
@@ -555,7 +555,7 @@ footer{position:relative;z-index:1;padding:60px 48px 40px;border-top:1px solid v
         <div class="popup-feat-icon">&#x1F4E5;</div>
         <div class="popup-feat-text">
           <div class="popup-feat-name">PDF Notes Download</div>
-          <div class="popup-feat-desc">Access complete RM notes as PDFs via Google Drive. Download for offline study anytime.</div>
+          <div class="popup-feat-desc">Access complete IP notes as PDFs via Google Drive. Download for offline study anytime.</div>
         </div>
       </div>
       <div class="popup-feat">
@@ -567,29 +567,29 @@ footer{position:relative;z-index:1;padding:60px 48px 40px;border-top:1px solid v
       </div>
     </div>
     <button class="popup-dismiss" onclick="closePopup()">GOT IT, LET'S GO!</button>
-    <div class="popup-ver">RM PORTAL v2.0</div>
+    <div class="popup-ver">IP PORTAL v2.0</div>
   </div>
 </div>
 
 <!-- FOOTER -->
 <footer id="footer-section">
 <pre class="footer-ascii">
- ____  ____  __  __ ____    _   _  ___ _____ _____ ____
-|  _ \| __ )|  \/  / ___|  | \ | |/ _ \_   _| ____/ ___|
-| | | |  _ \| |\/| \___ \  |  \| | | | || | |  _| \___ \
-| |_| | |_) | |  | |___) | | |\  | |_| || | | |___ ___) |
-|____/|____/|_|  |_|____/  |_| \_|\___/ |_| |_____|____/
+ ___   ____        _   _    ___    _____   _____   ____   
+|_ _| |  _ \      | \ | |  / _ \  |_   _| | ____| / ___|  
+ | |  | |_) |     |  \| | | | | |   | |   |  _|   \___ \  
+ | |  |  __/      | |\  | | |_| |   | |   | |___   ___) | 
+|___| |_|         |_| \_|  \___/    |_|   |_____| |____/  
   </pre>
   <div class="footer-stats">
-    <div class="f-stat"><span class="f-val">31</span><span class="f-lbl">Topics Loaded</span></div>
-    <div class="f-stat"><span class="f-val">4</span><span class="f-lbl">Modules Active</span></div>
+    <div class="f-stat"><span class="f-val">65</span><span class="f-lbl">Topics Loaded</span></div>
+    <div class="f-stat"><span class="f-val">6</span><span class="f-lbl">Modules Active</span></div>
     <div class="f-stat"><span class="f-val" id="uptime-footer">00:00</span><span class="f-lbl">System Uptime</span></div>
     <div class="f-stat"><span class="f-val">100%</span><span class="f-lbl">Coverage</span></div>
   </div>
   <div class="footer-copy">
-    <div><span class="fg">[ RM PORTAL v2.0 ]</span> — B.Tech 6th Semester Study System</div>
-    <div>Author: <span class="fg">Rishav Raj</span> // Subject: <span class="fg">Research Methodology</span></div>
-    <div style="margin-top:8px;color:rgba(255,0,170,.15)">root@rm-portal:~$ <span style="animation:blink 1s step-end infinite;color:rgba(255,0,170,.3)">_</span></div>
+    <div><span class="fg">[ IP PORTAL v2.0 ]</span> — B.Tech 6th Semester Study System</div>
+    <div>Author: <span class="fg">Rishav Raj</span> // Subject: <span class="fg">Image Processing</span></div>
+    <div style="margin-top:8px;color:rgba(0,136,255,.15)">root@ip-portal:~$ <span style="animation:blink 1s step-end infinite;color:rgba(0,136,255,.3)">_</span></div>
   </div>
 </footer>
 
@@ -648,177 +648,339 @@ footer{position:relative;z-index:1;padding:60px 48px 40px;border-top:1px solid v
 const MODULES = [
   {
     "id": "m1",
-    "code": "UNIT-01",
-    "title": "UNIT-1_RM_LME",
-    "desc": "Research Methodology Concepts",
+    "code": "MOD-01",
+    "title": "Introduction",
+    "desc": "Image Processing Concepts",
     "difficulty": "CORE",
     "diffClass": "core",
     "cardClass": "c-green",
     "btnClass": "eg",
-    "file": "UNIT-1_RM_LME.md",
+    "file": "IP_1_Introduction.md",
     "topics": [
       {
         "id": "q1",
-        "title": "What are the motivation & objectives of research? Write t..."
+        "title": "Develop a procedure for computing the median of an n \u00d7 n ..."
       },
       {
         "id": "q2",
-        "title": "What are the types of research? (Descriptive, Analytical,..."
+        "title": "What is a pixel? Explain 4-neighbour and 8-neighbour of a..."
       },
       {
         "id": "q3",
-        "title": "What is basic & applied research process? What is the cri..."
+        "title": "Explain image sensing and acquisition using Single Sensor..."
       },
       {
         "id": "q4",
-        "title": "What is research problem? What is necessity of defining t..."
+        "title": "Explain Bilinear Interpolation Method."
       },
       {
         "id": "q5",
-        "title": "What is literature review? How it helps in defining a pro..."
+        "title": "What is the resolution of an image? Compute the size of a..."
       },
       {
         "id": "q6",
-        "title": "What is monograph? What is patents? What is research data..."
+        "title": "Write down the key stages in Digital Image Processing (DI..."
       },
       {
         "id": "q7",
-        "title": "What is critical literature review? What are the gap area..."
+        "title": "What is an 8-bit colour image? Explain. What is meant by ..."
       },
       {
         "id": "q8",
-        "title": "What are the different steps of research process? Compare..."
+        "title": "What is aliasing in the context of image sampling? What d..."
       },
       {
         "id": "q9",
-        "title": "What is limited life IP & unlimited life IP? Explain with..."
+        "title": "Differentiate between an image and a scene. Define a digi..."
+      },
+      {
+        "id": "q10",
+        "title": "Brightness discrimination is poor at low levels of illumi..."
+      },
+      {
+        "id": "q11",
+        "title": "What are the storage requirements for: (a) A 500 \u00d7 500 bi..."
       }
     ]
   },
   {
     "id": "m2",
-    "code": "UNIT-02",
-    "title": "UNIT-2_RM_LME",
-    "desc": "Research Methodology Concepts",
+    "code": "MOD-02",
+    "title": "Digital Image Formation",
+    "desc": "Image Processing Concepts",
     "difficulty": "INTERMEDIATE",
     "diffClass": "inter",
     "cardClass": "c-cyan",
     "btnClass": "ec",
-    "file": "UNIT-2_RM_LME.md",
+    "file": "IP_2_Digital_Image_Formation.md",
     "topics": [
       {
         "id": "q1",
-        "title": "What are the different methods of data collection? Explai..."
+        "title": "What is image sampling? Define saturation in a digital im..."
       },
       {
         "id": "q2",
-        "title": "Explain sampling techniques? Why it is important? What is..."
+        "title": "Write down the various 2D transforms."
       },
       {
         "id": "q3",
-        "title": "Discuss the method validation process in data collection?..."
+        "title": "What are the basic steps involved in image geometrical tr..."
       },
       {
         "id": "q4",
-        "title": "Describe any statistical software used in research (e.g.,..."
+        "title": "If an image is rotated by an angle of \u03c0/4, will there be ..."
       },
       {
         "id": "q5",
-        "title": "Explain the concept of hypothesis testing with example? W..."
+        "title": "Explain CMY and CMYK colour models. Explain RGB model and..."
       },
       {
         "id": "q6",
-        "title": "Compare t-test & ANOVA? Write a short note on Z-test, p-t..."
+        "title": "Write the conversion rules for converting RGB to HSI mode..."
       },
       {
         "id": "q7",
-        "title": "What are the basic characteristics of hypothesis?"
+        "title": "What is a CCD array? How is it related to image quality?"
+      },
+      {
+        "id": "q8",
+        "title": "What is image resampling? What is the purpose of image de..."
+      },
+      {
+        "id": "q9",
+        "title": "What is image thinning in character recognition?"
+      },
+      {
+        "id": "q10",
+        "title": "Explain three different transformations used in images. G..."
+      },
+      {
+        "id": "q11",
+        "title": "What do you mean by sampling and quantization? Explain th..."
       }
     ]
   },
   {
     "id": "m3",
-    "code": "UNIT-03",
-    "title": "UNIT-3_RM_LME",
-    "desc": "Research Methodology Concepts",
+    "code": "MOD-03",
+    "title": "Mathematical Preliminaries",
+    "desc": "Image Processing Concepts",
     "difficulty": "ADVANCED",
     "diffClass": "adv",
     "cardClass": "c-pink",
     "btnClass": "ep",
-    "file": "UNIT-3_RM_LME.md",
+    "file": "IP_3_Mathematical_Preliminaries.md",
     "topics": [
       {
         "id": "q1",
-        "title": "What is research ethics? Mention common ethical issues in..."
+        "title": "Compare one-dimensional and two-dimensional DFT. What is ..."
       },
       {
         "id": "q2",
-        "title": "What is the role of ethical committees in research involv..."
+        "title": "What is Fourier Transform? What are Fourier Descriptors?"
       },
       {
         "id": "q3",
-        "title": "Define IPR? Differentiate between patent & copyright? Whe..."
+        "title": "Show that the Fourier Transform of the autocorrelation fu..."
       },
       {
         "id": "q4",
-        "title": "What is TRIPS? Explain its significance in research & inn..."
+        "title": "Discuss briefly the usefulness of the Discrete Cosine Tra..."
       },
       {
         "id": "q5",
-        "title": "Discuss royalty & commercialization of research?"
+        "title": "Explain Hough Transform and describe its applications in ..."
       },
       {
         "id": "q6",
-        "title": "Define plagiarism? How it can be avoided? What is self-pl..."
+        "title": "Discuss global processing via Hough Transform. Explain th..."
       },
       {
         "id": "q7",
-        "title": "Explain the importance of citation & acknowledgement in s..."
+        "title": "Define 4-adjacency, 8-adjacency, and m-adjacency. Explain..."
+      },
+      {
+        "id": "q8",
+        "title": "What are the different methods for calculating the distan..."
+      },
+      {
+        "id": "q9",
+        "title": "What is a unitary transform? Define and derive the equati..."
+      },
+      {
+        "id": "q10",
+        "title": "What is Hadamard Transform? What is Walsh Transform? What..."
+      },
+      {
+        "id": "q11",
+        "title": "What is Contrast Stretching? Differentiate between low-co..."
       }
     ]
   },
   {
     "id": "m4",
-    "code": "UNIT-04",
-    "title": "UNIT-4_RM_LME",
-    "desc": "Research Methodology Concepts",
+    "code": "MOD-04",
+    "title": "Image Enhancement",
+    "desc": "Image Processing Concepts",
     "difficulty": "EXPERT",
     "diffClass": "expert",
     "cardClass": "c-orange",
     "btnClass": "eo",
-    "file": "UNIT-4_RM_LME.md",
+    "file": "IP_4_Image_Enhancement.md",
     "topics": [
       {
         "id": "q1",
-        "title": "Define interpretation? What are the techniques used in in..."
+        "title": "What are median filters? What is image enhancement? What ..."
       },
       {
         "id": "q2",
-        "title": "Why is report writing significant in research? Describe t..."
+        "title": "Discuss the limiting effect of repeatedly applying a 3\u00d73 ..."
       },
       {
         "id": "q3",
-        "title": "What is technical report, project report, research report..."
+        "title": "Explain unsharp masking and high-boost filtering. What is..."
       },
       {
         "id": "q4",
-        "title": "What is the process of oral presentation of a report? Wha..."
+        "title": "Briefly describe smoothing linear spatial filtering. What..."
       },
       {
         "id": "q5",
-        "title": "How to write the conclusion section of a research report?..."
+        "title": "What is understood by spatial domain representation? Comp..."
       },
       {
         "id": "q6",
-        "title": "List & explain the steps involved in writing a project re..."
+        "title": "What are spatial-domain and frequency-domain techniques? ..."
       },
       {
         "id": "q7",
-        "title": "Differentiate between Questionnaires & Schedules? Explain..."
+        "title": "What is a Quad-tree? What is salt-and-pepper noise? What ..."
       },
       {
         "id": "q8",
-        "title": "What do you understand by Geographical Indications? What ..."
+        "title": "What is homomorphic filtering? Derive the equation for a ..."
+      },
+      {
+        "id": "q9",
+        "title": "What are the steps involved in histogram equalization? Wh..."
+      },
+      {
+        "id": "q10",
+        "title": "Show how Prewitt and Sobel operators can be used to smoot..."
+      },
+      {
+        "id": "q11",
+        "title": "Explain intensity-level slicing. Why is logarithmic (log)..."
+      },
+      {
+        "id": "q12",
+        "title": "What is image averaging? Discuss histogram characteristic..."
+      },
+      {
+        "id": "q13",
+        "title": "Describe edge detection operators. What is point processi..."
+      },
+      {
+        "id": "q14",
+        "title": "Explain the process of image enhancement using arithmetic..."
+      },
+      {
+        "id": "q15",
+        "title": "Describe the algorithm for image sharpening using DFT and..."
+      },
+      {
+        "id": "q16",
+        "title": "Explain the process of image convolution with a suitable ..."
+      }
+    ]
+  },
+  {
+    "id": "m5",
+    "code": "MOD-05",
+    "title": "Image Restoration",
+    "desc": "Image Processing Concepts",
+    "difficulty": "CORE",
+    "diffClass": "core",
+    "cardClass": "c-green",
+    "btnClass": "eg",
+    "file": "IP_5_Image_Restoration.md",
+    "topics": [
+      {
+        "id": "q1",
+        "title": "List the various geometric transformations. Differentiate..."
+      },
+      {
+        "id": "q2",
+        "title": "Explain the image restoration model. Explain the restorat..."
+      },
+      {
+        "id": "q3",
+        "title": "What is threshold coding implementation? What is least-sq..."
+      },
+      {
+        "id": "q4",
+        "title": "Describe the restoration technique using homomorphic filt..."
+      }
+    ]
+  },
+  {
+    "id": "m6",
+    "code": "MOD-06",
+    "title": "Image Segmentation & Compression",
+    "desc": "Image Processing Concepts",
+    "difficulty": "INTERMEDIATE",
+    "diffClass": "inter",
+    "cardClass": "c-cyan",
+    "btnClass": "ec",
+    "file": "IP_6_Image_Segmentation_and_Compression.md",
+    "topics": [
+      {
+        "id": "q1",
+        "title": "Define edge detection. Write down the usefulness of segme..."
+      },
+      {
+        "id": "q2",
+        "title": "What is a boundary descriptor? What is a Fourier descript..."
+      },
+      {
+        "id": "q3",
+        "title": "What is the pattern fitting approach? What is the region ..."
+      },
+      {
+        "id": "q4",
+        "title": "Explain the object recognition process. What is the split..."
+      },
+      {
+        "id": "q5",
+        "title": "What are the common metrics used to assess the performanc..."
+      },
+      {
+        "id": "q6",
+        "title": "Differentiate between image deblurring and image inpainting."
+      },
+      {
+        "id": "q7",
+        "title": "Describe the process of feature extraction in an image."
+      },
+      {
+        "id": "q8",
+        "title": "What is edge linking using local processing?"
+      },
+      {
+        "id": "q9",
+        "title": "Describe image morphing between two images."
+      },
+      {
+        "id": "q10",
+        "title": "What is the difference between lossless and lossy image c..."
+      },
+      {
+        "id": "q11",
+        "title": "What is the full form of JPEG? Define the JPEG compressio..."
+      },
+      {
+        "id": "q12",
+        "title": "What is compression ratio? What are the different image c..."
       }
     ]
   }
@@ -836,7 +998,7 @@ const mdCache = {};
 (function initMatrix() {
   const canvas = document.getElementById('matrix-canvas');
   const ctx = canvas.getContext('2d');
-  const chars = 'RMQLACIDNFJOINBCNFSELECT01INSERT WHERE GROUP HAVING ORDER BY DELETE UPDATE CREATE DROP ALTER PRIMARY KEY FOREIGN UNIQUE NOT NULL INDEX VIEW TRIGGER PROCEDURE FUNCTION SCHEMA CATALOG RELATION TUPLE ATTRIBUTE ENTITY'.split('');
+  const chars = 'IPQLACIDNFJOINBCNFSELECT01INSERT WHERE GROUP HAVING ORDER BY DELETE UPDATE CREATE DROP ALTER PRIMARY KEY FOREIGN UNIQUE NOT NULL INDEX VIEW TRIGGER PROCEDURE FUNCTION SCHEMA CATALOG RELATION TUPLE ATTRIBUTE ENTITY'.split('');
   let cols, drops;
 
   function resize() {
@@ -1243,11 +1405,11 @@ function toggleTheme() {
   const btn = document.getElementById('theme-toggle');
   const isLight = body.classList.toggle('light-mode');
   btn.classList.toggle('light', isLight);
-  localStorage.setItem('rm-theme', isLight ? 'light' : 'dark');
+  localStorage.setItem('ip-theme', isLight ? 'light' : 'dark');
 }
 
 function initTheme() {
-  const saved = localStorage.getItem('rm-theme');
+  const saved = localStorage.getItem('ip-theme');
   if (saved === 'light') {
     document.body.classList.add('light-mode');
     document.getElementById('theme-toggle').classList.add('light');
