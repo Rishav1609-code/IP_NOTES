@@ -1,0 +1,1466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IP NOTES — B.Tech Image Processing Portal v2.0</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<style>
+/* =============================================
+   ROOT VARIABLES
+============================================= */
+:root {
+  --bg: #0a0a0a;
+  --bg2: #0d0d0d;
+  --bg3: #111111;
+  --glass: rgba(0,136,255,0.03);
+  --green: #0088ff;
+  --green-dim: #0055cc;
+  --cyan: #e0e0e0;
+  --red: #ff0040;
+  --orange: #ff5500;
+  --pink: #ff00aa;
+  --yellow: #ffcc00;
+  --text: #d8d8d8;
+  --text-dim: #666;
+  --border: rgba(0,136,255,0.12);
+  --border-cyan: rgba(224,224,224,0.15);
+  --font: 'JetBrains Mono', 'Fira Code', monospace;
+  --glow-g: 0 0 20px rgba(0,136,255,0.45), 0 0 50px rgba(0,136,255,0.15);
+  --glow-c: 0 0 20px rgba(224,224,224,0.45), 0 0 50px rgba(224,224,224,0.15);
+  --glow-p: 0 0 20px rgba(255,0,170,0.45);
+  --glow-o: 0 0 20px rgba(255,85,0,0.45);
+}
+
+/* =============================================
+   LIGHT MODE OVERRIDES
+============================================= */
+body.light-mode {
+  --bg: #f4f6f8;
+  --bg2: #ebeef1;
+  --bg3: #e2e6ea;
+  --glass: rgba(0,120,60,0.04);
+  --green: #00894a;
+  --green-dim: #006b3a;
+  --cyan: #0077aa;
+  --red: #cc0033;
+  --orange: #cc4400;
+  --pink: #bb0088;
+  --yellow: #997700;
+  --text: #1a1a2e;
+  --text-dim: #6b7280;
+  --border: rgba(0,137,74,0.15);
+  --border-cyan: rgba(0,119,170,0.15);
+  --glow-g: 0 0 10px rgba(0,137,74,0.18), 0 0 30px rgba(0,137,74,0.06);
+  --glow-c: 0 0 10px rgba(0,119,170,0.18), 0 0 30px rgba(0,119,170,0.06);
+  --glow-p: 0 0 10px rgba(187,0,136,0.18);
+  --glow-o: 0 0 10px rgba(204,68,0,0.18);
+}
+body.light-mode #matrix-canvas{opacity:.03}
+body.light-mode .scanlines{background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.008) 2px,rgba(0,0,0,.008) 4px)}
+body.light-mode .noise{opacity:.012}
+body.light-mode nav{background:rgba(244,246,248,.94);border-bottom-color:rgba(0,137,74,.12)}
+body.light-mode .card{background:rgba(255,255,255,.7);border-color:rgba(0,0,0,.08)}
+body.light-mode .card::before{background:radial-gradient(ellipse at top left,rgba(0,137,74,.04),transparent 70%)}
+body.light-mode .mod-title{color:#1a1a2e}
+body.light-mode .hero-grid{opacity:.12}
+body.light-mode #boot-terminal{background:rgba(255,255,255,.6);border-color:rgba(0,137,74,.15);box-shadow:0 0 30px rgba(0,137,74,.04),inset 0 0 20px rgba(0,0,0,.02)}
+body.light-mode .md h3{color:#2d2d44}
+body.light-mode .md code{background:rgba(0,137,74,.06);border-color:rgba(0,137,74,.12)}
+body.light-mode .md pre{background:#f8f9fb;border-color:rgba(0,0,0,.1)}
+body.light-mode .md td{border-color:rgba(0,0,0,.06)}
+body.light-mode .md tr:nth-child(even) td{background:rgba(0,0,0,.02)}
+body.light-mode .md tr:hover td{background:rgba(0,137,74,.04)}
+body.light-mode .md blockquote{background:rgba(0,119,170,.04);border-left-color:var(--cyan)}
+body.light-mode #viewer{background:rgba(248,249,252,.98);border-left-color:rgba(0,137,74,.12)}
+body.light-mode .viewer-head{background:rgba(240,242,245,.8)}
+body.light-mode .viewer-tabs{background:rgba(240,242,245,.5);border-bottom-color:rgba(0,0,0,.05)}
+body.light-mode .vtab{border-color:rgba(0,0,0,.08);color:var(--text-dim)}
+body.light-mode .vtab.active{border-color:var(--green);color:var(--green);background:rgba(0,137,74,.06)}
+body.light-mode #viewer-backdrop{background:rgba(0,0,0,.25)}
+body.light-mode #search-overlay{background:rgba(255,255,255,.88)}
+body.light-mode .search-bar{background:rgba(255,255,255,.98);border-color:var(--green)}
+body.light-mode .search-results{background:rgba(255,255,255,.99);border-color:rgba(0,137,74,.15)}
+body.light-mode .s-result:hover,.s-result.focused{background:rgba(0,137,74,.06)}
+body.light-mode .s-result{border-bottom-color:rgba(0,0,0,.04)}
+body.light-mode .footer-copy{color:rgba(0,0,0,.3)}
+body.light-mode .footer-ascii{color:rgba(0,137,74,.12)}
+body.light-mode ::-webkit-scrollbar-track{background:#eee}
+body.light-mode .badge.core{color:var(--green);border-color:rgba(0,137,74,.4)}
+body.light-mode .badge.inter{color:var(--cyan);border-color:rgba(0,119,170,.4)}
+body.light-mode .badge.adv{color:var(--pink);border-color:rgba(187,0,136,.4)}
+body.light-mode .badge.expert{color:var(--orange);border-color:rgba(204,68,0,.4)}
+body.light-mode #progress{box-shadow:0 0 6px rgba(0,137,74,.3)}
+body.light-mode .hero-title{text-shadow:0 0 20px rgba(0,137,74,.25)}
+
+/* =============================================
+   RESET & BASE
+============================================= */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--text);overflow-x:hidden;min-height:100vh;cursor:default;transition:background .4s ease,color .4s ease}
+a{color:inherit;text-decoration:none}
+button{font-family:var(--font)}
+
+/* =============================================
+   CUSTOM SCROLLBAR
+============================================= */
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:#000}
+::-webkit-scrollbar-thumb{background:var(--green);border-radius:2px;box-shadow:0 0 6px var(--green)}
+
+/* =============================================
+   PROGRESS BAR
+============================================= */
+#progress{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--green),var(--cyan));box-shadow:0 0 8px var(--green);z-index:9999;width:0%;transition:width .08s linear;pointer-events:none}
+
+/* =============================================
+   MATRIX RAIN
+============================================= */
+#matrix-canvas{position:fixed;top:0;left:0;width:100%;height:100%;opacity:.07;pointer-events:none;z-index:0}
+
+/* =============================================
+   SCANLINES
+============================================= */
+.scanlines{position:fixed;inset:0;pointer-events:none;z-index:998;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,136,255,.012) 2px,rgba(0,136,255,.012) 4px)}
+
+/* =============================================
+   NOISE OVERLAY
+============================================= */
+.noise{position:fixed;inset:0;pointer-events:none;z-index:997;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* =============================================
+   NAVBAR
+============================================= */
+nav{position:fixed;top:0;left:0;right:0;z-index:600;display:flex;align-items:center;justify-content:space-between;padding:14px 48px;background:rgba(8,8,8,.92);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);transition:padding .3s}
+.nav-logo{font-size:13px;font-weight:700;color:var(--green);text-shadow:var(--glow-g);letter-spacing:4px;text-transform:uppercase;display:flex;align-items:center;gap:10px}
+.nav-logo-bracket{color:var(--cyan)}
+.nav-links{display:flex;gap:32px;list-style:none}
+.nav-links a{color:var(--text-dim);font-size:11px;letter-spacing:2px;text-transform:uppercase;transition:all .25s;position:relative;padding-bottom:2px}
+.nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--green);transition:width .25s;box-shadow:0 0 6px var(--green)}
+.nav-links a:hover{color:var(--green)}
+.nav-links a:hover::after{width:100%}
+.nav-right{display:flex;align-items:center;gap:12px}
+.nav-search-btn{background:none;border:1px solid var(--border);color:var(--text-dim);font-size:11px;padding:6px 18px;cursor:pointer;letter-spacing:2px;transition:all .25s;text-transform:uppercase}
+.nav-search-btn:hover{border-color:var(--green);color:var(--green);box-shadow:0 0 12px rgba(0,136,255,.25)}
+
+/* Theme Toggle Button */
+.theme-toggle{position:relative;width:52px;height:28px;border-radius:14px;border:1px solid var(--border);background:rgba(0,136,255,.06);cursor:pointer;padding:0;transition:all .4s ease;flex-shrink:0;overflow:hidden}
+.theme-toggle::before{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:var(--green);transition:all .4s cubic-bezier(.68,-.55,.27,1.55);box-shadow:0 0 8px rgba(0,136,255,.4)}
+.theme-toggle.light::before{left:27px;background:var(--yellow);box-shadow:0 0 8px rgba(255,180,0,.5)}
+.theme-toggle .toggle-icon{position:absolute;top:50%;transform:translateY(-50%);font-size:13px;line-height:1;transition:opacity .3s ease}
+.toggle-icon.moon{left:7px;opacity:1}
+.toggle-icon.sun{right:6px;opacity:0}
+.theme-toggle.light .toggle-icon.moon{opacity:0}
+.theme-toggle.light .toggle-icon.sun{opacity:1}
+.theme-toggle:hover{border-color:var(--green);box-shadow:0 0 12px rgba(0,136,255,.2)}
+body.light-mode .theme-toggle{background:rgba(0,137,74,.06);border-color:rgba(0,137,74,.2)}
+body.light-mode .theme-toggle:hover{border-color:var(--green);box-shadow:0 0 12px rgba(0,137,74,.15)}
+
+/* =============================================
+   HERO
+============================================= */
+#hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:100px 40px 60px;z-index:1;overflow:hidden}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:55px 55px;transform:perspective(600px) rotateX(28deg) scale(1.6) translateY(8%);transform-origin:bottom center;opacity:.35;pointer-events:none}
+.hero-grid-fade{position:absolute;inset:0;background:linear-gradient(to top,var(--bg) 0%,transparent 50%);pointer-events:none}
+.hero-inner{position:relative;z-index:2;text-align:center;max-width:900px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(224,224,224,.4);color:var(--cyan);font-size:9px;letter-spacing:5px;padding:5px 18px;margin-bottom:28px;animation:borderPulse 3s ease-in-out infinite}
+.hero-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink 1.2s step-end infinite;box-shadow:0 0 6px var(--green)}
+@keyframes borderPulse{0%,100%{box-shadow:0 0 6px rgba(224,224,224,.3)}50%{box-shadow:0 0 20px rgba(224,224,224,.5),0 0 40px rgba(224,224,224,.2)}}
+.hero-title{font-size:clamp(52px,9vw,108px);font-weight:700;letter-spacing:10px;line-height:1;margin-bottom:24px;color:var(--green);text-shadow:0 0 40px rgba(0,136,255,.5);animation:glitchMain 5s infinite}
+.hero-title::before,.hero-title::after{content:attr(data-text);position:absolute;top:0;left:50%;transform:translateX(-50%);width:100%}
+.hero-title{position:relative;display:inline-block}
+.hero-title::before{color:var(--cyan);animation:glitchBefore 5s infinite;clip-path:polygon(0 0,100% 0,100% 33%,0 33%)}
+.hero-title::after{color:var(--red);animation:glitchAfter 5s infinite;clip-path:polygon(0 66%,100% 66%,100% 100%,0 100%)}
+@keyframes glitchMain{0%,88%,100%{transform:translateX(0)}89%{transform:translateX(-3px)}90%{transform:translateX(3px)}91%{transform:translateX(0)}96%{transform:translateX(2px)}97%{transform:translateX(-1px)}}
+@keyframes glitchBefore{0%,88%,100%{transform:translateX(-50%);opacity:1}89%{transform:translateX(calc(-50% - 4px));opacity:.8}90%{transform:translateX(calc(-50% + 4px));opacity:.7}91%{transform:translateX(-50%);opacity:0}}
+@keyframes glitchAfter{0%,90%,100%{transform:translateX(-50%);opacity:0}91%{transform:translateX(calc(-50% + 4px));opacity:.8}93%{transform:translateX(calc(-50% - 2px));opacity:.8}94%{transform:translateX(-50%);opacity:0}}
+.hero-sub{font-size:11px;letter-spacing:4px;color:var(--cyan);margin-bottom:8px;text-transform:uppercase}
+.hero-tagline{font-size:13px;color:var(--text-dim);letter-spacing:1px;margin-bottom:40px}
+.cursor-blink{display:inline-block;color:var(--green);animation:blink 1s step-end infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+/* Terminal Boot */
+#boot-terminal{width:min(620px,92vw);margin:0 auto 44px;background:rgba(0,0,0,.75);border:1px solid rgba(0,136,255,.2);border-radius:3px;padding:20px 24px;text-align:left;font-size:12px;line-height:1.9;box-shadow:0 0 40px rgba(0,136,255,.08),inset 0 0 40px rgba(0,0,0,.5)}
+#boot-terminal .tline{color:var(--text-dim);opacity:0;transition:opacity .2s}
+#boot-terminal .tline.visible{opacity:1}
+#boot-terminal .tline.ok{color:var(--green)}
+#boot-terminal .tline.warn{color:var(--yellow)}
+#boot-terminal .tline.info{color:var(--cyan)}
+
+.hero-stats{display:flex;gap:48px;justify-content:center;flex-wrap:wrap;margin-bottom:40px}
+.stat{text-align:center}
+.stat-num{font-size:32px;font-weight:700;color:var(--green);text-shadow:0 0 20px rgba(0,136,255,.5);display:block}
+.stat-label{font-size:9px;letter-spacing:3px;color:var(--text-dim);text-transform:uppercase;display:block;margin-top:4px}
+
+.hero-cta{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-block;font-family:var(--font);font-size:11px;letter-spacing:3px;text-transform:uppercase;padding:12px 36px;cursor:pointer;transition:all .3s;border:1px solid}
+.btn-g{color:var(--green);border-color:var(--green);background:transparent}
+.btn-g:hover{background:rgba(0,136,255,.08);box-shadow:var(--glow-g)}
+.btn-c{color:var(--cyan);border-color:var(--cyan);background:transparent}
+.btn-c:hover{background:rgba(224,224,224,.08);box-shadow:var(--glow-c)}
+
+/* =============================================
+   SECTION HEADERS
+============================================= */
+.sec-header{text-align:center;margin-bottom:60px}
+.sec-label{font-size:9px;letter-spacing:5px;color:var(--green);text-transform:uppercase;margin-bottom:12px}
+.sec-title{font-size:clamp(22px,3.5vw,36px);font-weight:700;letter-spacing:2px;color:var(--text)}
+.sec-title em{color:var(--green);font-style:normal}
+.sec-line{width:60px;height:1px;background:linear-gradient(90deg,transparent,var(--green),transparent);margin:16px auto 0}
+
+/* =============================================
+   MODULES SECTION
+============================================= */
+#modules{position:relative;z-index:1;padding:90px 48px;max-width:1480px;margin:0 auto}
+.module-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:24px}
+
+/* =============================================
+   MODULE CARDS
+============================================= */
+.card{position:relative;background:rgba(0,0,0,.5);border:1px solid var(--border);padding:28px;cursor:pointer;overflow:hidden;transition:all .35s cubic-bezier(.175,.885,.32,1.1);transform-style:preserve-3d;will-change:transform;opacity:0;animation:fadeUp .6s ease forwards}
+.card:nth-child(1){animation-delay:.05s}.card:nth-child(2){animation-delay:.15s}.card:nth-child(3){animation-delay:.25s}.card:nth-child(4){animation-delay:.35s}.card:nth-child(5){animation-delay:.45s}.card:nth-child(6){animation-delay:.55s}.card:nth-child(7){animation-delay:.65s}.card:nth-child(8){animation-delay:.75s}.card:nth-child(9){animation-delay:.85s}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+.card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at top left,rgba(0,136,255,.06),transparent 70%);opacity:0;transition:opacity .35s}
+.card:hover::before{opacity:1}
+.card::after{content:'';position:absolute;top:0;right:0;border-style:solid;border-width:0 22px 22px 0;border-color:transparent transparent transparent transparent;transition:border-color .3s}
+.card.c-green:hover{border-color:rgba(0,136,255,.4);box-shadow:0 8px 40px rgba(0,136,255,.12),inset 0 0 40px rgba(0,136,255,.02);transform:translateY(-5px)}
+.card.c-green:hover::after{border-color:transparent var(--green) transparent transparent}
+.card.c-cyan:hover{border-color:rgba(224,224,224,.4);box-shadow:0 8px 40px rgba(224,224,224,.12),inset 0 0 40px rgba(224,224,224,.02);transform:translateY(-5px)}
+.card.c-cyan::before{background:radial-gradient(ellipse at top left,rgba(224,224,224,.06),transparent 70%)}
+.card.c-cyan:hover::after{border-color:transparent var(--cyan) transparent transparent}
+.card.c-pink:hover{border-color:rgba(255,0,170,.4);box-shadow:0 8px 40px rgba(255,0,170,.12);transform:translateY(-5px)}
+.card.c-pink::before{background:radial-gradient(ellipse at top left,rgba(255,0,170,.06),transparent 70%)}
+.card.c-pink:hover::after{border-color:transparent var(--pink) transparent transparent}
+.card.c-orange:hover{border-color:rgba(255,85,0,.4);box-shadow:0 8px 40px rgba(255,85,0,.12);transform:translateY(-5px)}
+.card.c-orange::before{background:radial-gradient(ellipse at top left,rgba(255,85,0,.06),transparent 70%)}
+.card.c-orange:hover::after{border-color:transparent var(--orange) transparent transparent}
+
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:22px}
+.mod-code{font-size:10px;letter-spacing:4px;font-weight:700;text-transform:uppercase}
+.c-green .mod-code{color:var(--green)}
+.c-cyan .mod-code{color:var(--cyan)}
+.c-pink .mod-code{color:var(--pink)}
+.c-orange .mod-code{color:var(--orange)}
+.badge{font-size:8px;letter-spacing:2px;padding:3px 10px;border:1px solid;text-transform:uppercase}
+.badge.core{color:var(--green);border-color:rgba(0,136,255,.5)}
+.badge.inter{color:var(--cyan);border-color:rgba(224,224,224,.5)}
+.badge.adv{color:var(--pink);border-color:rgba(255,0,170,.5)}
+.badge.expert{color:var(--orange);border-color:rgba(255,85,0,.5)}
+
+.mod-title{font-size:19px;font-weight:700;color:#eee;margin-bottom:7px;letter-spacing:.5px}
+.mod-desc{font-size:11px;color:var(--text-dim);margin-bottom:20px;line-height:1.7}
+.topic-list{list-style:none;margin-bottom:24px}
+.topic-list li{font-size:11px;color:var(--text-dim);padding:4px 0;display:flex;align-items:center;gap:8px;cursor:pointer;transition:color .2s}
+.topic-list li:hover{color:var(--text)}
+.topic-list li::before{content:'–¸';font-size:10px}
+.c-green .topic-list li::before{color:var(--green)}
+.c-cyan .topic-list li::before{color:var(--cyan)}
+.c-pink .topic-list li::before{color:var(--pink)}
+.c-orange .topic-list li::before{color:var(--orange)}
+
+.card-foot{display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(255,255,255,.05);padding-top:18px}
+.topic-count{font-size:11px;color:var(--text-dim)}
+.topic-count b{font-weight:700}
+.c-green .topic-count b{color:var(--green)}
+.c-cyan .topic-count b{color:var(--cyan)}
+.c-pink .topic-count b{color:var(--pink)}
+.c-orange .topic-count b{color:var(--orange)}
+.enter-btn{background:transparent;border:1px solid;font-family:var(--font);font-size:9px;letter-spacing:3px;padding:7px 22px;cursor:pointer;text-transform:uppercase;transition:all .25s}
+.enter-btn.eg{color:var(--green);border-color:rgba(0,136,255,.4)}.enter-btn.eg:hover{background:rgba(0,136,255,.1);box-shadow:0 0 12px rgba(0,136,255,.3)}
+.enter-btn.ec{color:var(--cyan);border-color:rgba(224,224,224,.4)}.enter-btn.ec:hover{background:rgba(224,224,224,.1);box-shadow:0 0 12px rgba(224,224,224,.3)}
+.enter-btn.ep{color:var(--pink);border-color:rgba(255,0,170,.4)}.enter-btn.ep:hover{background:rgba(255,0,170,.1);box-shadow:0 0 12px rgba(255,0,170,.3)}
+.enter-btn.eo{color:var(--orange);border-color:rgba(255,85,0,.4)}.enter-btn.eo:hover{background:rgba(255,85,0,.1);box-shadow:0 0 12px rgba(255,85,0,.3)}
+
+/* =============================================
+   VIEWER BACKDROP
+============================================= */
+#viewer-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:700;display:none;backdrop-filter:blur(3px)}
+#viewer-backdrop.open{display:block}
+
+/* =============================================
+   NOTE VIEWER PANEL
+============================================= */
+#viewer{position:fixed;inset:0;width:100vw;height:100vh;background:rgba(9,9,9,.98);z-index:800;transform:translateY(100%);transition:transform .4s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;backdrop-filter:blur(28px)}
+#viewer.open{transform:translateY(0)}
+
+.viewer-head{padding:16px 28px;border-bottom:1px solid rgba(0,136,255,.08);display:flex;justify-content:space-between;align-items:center;flex-shrink:0;background:rgba(0,0,0,.6)}
+.viewer-bc{font-size:10px;color:var(--text-dim);letter-spacing:1px}
+.viewer-bc .bc-sep{margin:0 8px;color:rgba(0,136,255,.3)}
+.viewer-bc .bc-active{color:var(--green)}
+.viewer-close{background:none;border:1px solid rgba(255,255,255,.1);color:var(--text-dim);font-size:16px;width:34px;height:34px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .25s}
+.viewer-close:hover{border-color:var(--red);color:var(--red);box-shadow:0 0 10px rgba(255,0,64,.3)}
+
+.viewer-close{background:none;border:1px solid rgba(255,255,255,.1);color:var(--text-dim);font-size:16px;width:34px;height:34px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .25s}
+.viewer-close:hover{border-color:var(--red);color:var(--red);box-shadow:0 0 10px rgba(255,0,64,.3)}
+
+.viewer-body{flex:1;overflow-y:auto;padding:40px 44px}
+
+/* =============================================
+   INDEX OVERLAY
+============================================= */
+#index-overlay{position:fixed;top:0;right:0;width:min(920px,100vw);height:100vh;background:rgba(9,9,9,.98);border-left:1px solid var(--border);z-index:750;transform:translateX(100%);transition:transform .4s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;backdrop-filter:blur(28px)}
+#index-overlay.open{transform:translateX(0)}
+.index-head{padding:16px 28px;border-bottom:1px solid rgba(0,136,255,.08);display:flex;justify-content:space-between;align-items:center;flex-shrink:0;background:rgba(0,0,0,.6)}
+.index-bc{font-size:10px;color:var(--text-dim);letter-spacing:1px}
+.index-close{background:none;border:1px solid rgba(255,255,255,.1);color:var(--text-dim);font-size:16px;width:34px;height:34px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .25s}
+.index-close:hover{border-color:var(--red);color:var(--red);box-shadow:0 0 10px rgba(255,0,64,.3)}
+.index-body{flex:1;overflow-y:auto;padding:40px 44px}
+.index-list{display:flex;flex-direction:column;gap:12px;margin-top:20px}
+.index-item{background:rgba(0,136,255,.05);border:1px solid rgba(0,136,255,.15);padding:16px 20px;color:var(--text);font-size:14px;cursor:pointer;transition:all .25s;border-radius:4px;line-height:1.6}
+.index-item:hover{background:rgba(0,136,255,.1);border-color:var(--green);transform:translateX(5px)}
+
+/* =============================================
+   RENDERED MARKDOWN
+============================================= */
+.md{max-width:920px;margin:0 auto;line-height:1.8;color:var(--text);font-size:14px;width:100%}
+.md h1{font-size:22px;color:var(--green);border-bottom:1px solid var(--border);padding-bottom:12px;margin:2em 0 .8em;letter-spacing:1px}
+.md h2{font-size:18px;color:var(--cyan);margin:1.8em 0 .7em;letter-spacing:1px}
+.md h3{font-size:15px;color:#ddd;margin:1.5em 0 .6em}
+.md h4{font-size:13px;color:var(--yellow);margin:1.3em 0 .5em}
+.md h5{font-size:12px;color:var(--text-dim);margin:1em 0 .4em}
+.md p{margin-bottom:.9em}
+.md strong{color:var(--green);font-weight:700}
+.md em{color:var(--cyan);font-style:italic}
+.md code{font-family:var(--font);background:rgba(0,136,255,.07);border:1px solid rgba(0,136,255,.12);color:var(--green);padding:2px 7px;border-radius:2px;font-size:12.5px}
+.md pre{background:#0d1117;border:1px solid rgba(0,136,255,.12);border-radius:3px;padding:20px 22px;overflow-x:auto;margin:1.4em 0}
+.md pre code{background:none;border:none;padding:0;color:inherit;font-size:12.5px}
+.md blockquote{border-left:3px solid var(--cyan);padding:10px 18px;margin:1.4em 0;background:rgba(224,224,224,.04);color:var(--text-dim);font-style:italic}
+.md table{width:100%;border-collapse:collapse;margin:1.4em 0;font-size:12.5px;display:block;overflow-x:auto}
+.md th{background:rgba(0,136,255,.07);color:var(--green);font-weight:700;padding:10px 14px;border:1px solid rgba(0,136,255,.15);text-align:left;letter-spacing:.5px;white-space:nowrap}
+.md td{padding:8px 14px;border:1px solid rgba(255,255,255,.05);color:var(--text);vertical-align:top}
+.md tr:nth-child(even) td{background:rgba(255,255,255,.015)}
+.md tr:hover td{background:rgba(0,136,255,.03)}
+.md ul,.md ol{padding-left:22px;margin:.7em 0}
+.md li{margin:5px 0}
+.md hr{border:none;border-top:1px solid rgba(0,136,255,.08);margin:1.8em 0}
+.md a{color:var(--cyan)}
+.md a:hover{text-decoration:underline}
+
+/* =============================================
+   SEARCH OVERLAY
+============================================= */
+#search-overlay{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:900;display:none;flex-direction:column;align-items:center;padding-top:110px;backdrop-filter:blur(8px)}
+#search-overlay.open{display:flex}
+.search-wrap{width:min(720px,92vw)}
+.search-bar{display:flex;align-items:center;background:rgba(10,10,10,.95);border:1px solid var(--green);box-shadow:var(--glow-g);padding:14px 20px;gap:12px}
+.search-icon{color:var(--green);font-size:15px;flex-shrink:0}
+#search-input{flex:1;background:transparent;border:none;outline:none;font-family:var(--font);font-size:16px;color:var(--text);caret-color:var(--green)}
+#search-input::placeholder{color:var(--text-dim)}
+.search-esc{font-size:9px;color:var(--text-dim);letter-spacing:2px;padding:3px 8px;border:1px solid rgba(255,255,255,.1);white-space:nowrap}
+.search-results{background:rgba(10,10,10,.98);border:1px solid rgba(0,136,255,.15);border-top:none;max-height:440px;overflow-y:auto}
+.s-result{padding:12px 20px;cursor:pointer;border-bottom:1px solid rgba(255,255,255,.03);display:flex;align-items:center;gap:14px;transition:background .15s}
+.s-result:hover,.s-result.focused{background:rgba(0,136,255,.06)}
+.s-mod{font-size:9px;color:var(--green);letter-spacing:2px;min-width:55px;flex-shrink:0}
+.s-topic{font-size:13px;color:var(--text)}
+.s-empty{padding:20px;text-align:center;color:var(--text-dim);font-size:12px}
+
+/* =============================================
+   DRIVE LINK BANNER
+============================================= */
+#drive-banner{position:relative;z-index:1;padding:0 48px;max-width:1480px;margin:0 auto}
+.drive-card{position:relative;display:flex;align-items:center;gap:28px;padding:28px 36px;background:rgba(224,224,224,.03);border:1px solid var(--border-cyan);overflow:hidden;transition:all .35s ease}
+.drive-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at left,rgba(224,224,224,.06),transparent 60%);opacity:0;transition:opacity .35s;pointer-events:none}
+.drive-card:hover::before{opacity:1}
+.drive-card:hover{border-color:rgba(224,224,224,.35);box-shadow:0 4px 32px rgba(224,224,224,.08)}
+.drive-icon{flex-shrink:0;width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;background:rgba(224,224,224,.08);border:1px solid rgba(224,224,224,.2);transition:all .35s}
+.drive-card:hover .drive-icon{box-shadow:var(--glow-c);border-color:rgba(224,224,224,.4)}
+.drive-info{flex:1;min-width:0}
+.drive-label{font-size:9px;letter-spacing:4px;color:var(--cyan);text-transform:uppercase;margin-bottom:4px}
+.drive-title{font-size:16px;font-weight:700;color:#eee;letter-spacing:.5px;margin-bottom:4px}
+.drive-desc{font-size:11px;color:var(--text-dim);line-height:1.6}
+.drive-btn{flex-shrink:0;display:inline-flex;align-items:center;gap:8px;font-family:var(--font);font-size:10px;letter-spacing:3px;text-transform:uppercase;padding:11px 28px;border:1px solid rgba(224,224,224,.4);color:var(--cyan);background:transparent;cursor:pointer;transition:all .3s;text-decoration:none;white-space:nowrap;position:relative;z-index:1}
+.drive-btn:hover{background:rgba(224,224,224,.1);box-shadow:var(--glow-c);border-color:var(--cyan);color:var(--cyan)}
+.drive-btn .arrow{font-size:14px;transition:transform .25s}
+.drive-btn:hover .arrow{transform:translateX(3px)}
+body.light-mode .drive-card{background:rgba(0,119,170,.03)}
+body.light-mode .drive-title{color:#1a1a2e}
+body.light-mode .drive-icon{background:rgba(0,119,170,.07);border-color:rgba(0,119,170,.2)}
+@media(max-width:768px){
+  #drive-banner{padding:0 20px}
+  .drive-card{flex-direction:column;text-align:center;gap:18px;padding:24px 20px}
+  .drive-info{text-align:center}
+}
+
+/* =============================================
+   WHATS NEW POPUP
+============================================= */
+#popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:950;display:none;align-items:center;justify-content:center;backdrop-filter:blur(6px);opacity:0;transition:opacity .4s ease}
+#popup-overlay.open{display:flex;opacity:1}
+.popup-box{position:relative;width:min(480px,90vw);background:rgba(10,10,10,.96);border:1px solid var(--border);padding:36px 32px 28px;animation:popupIn .5s cubic-bezier(.175,.885,.32,1.2) forwards;transform:scale(.85);opacity:0}
+@keyframes popupIn{to{transform:scale(1);opacity:1}}
+.popup-badge{display:inline-flex;align-items:center;gap:6px;font-size:9px;letter-spacing:4px;color:var(--cyan);text-transform:uppercase;border:1px solid rgba(224,224,224,.3);padding:4px 14px;margin-bottom:20px}
+.popup-badge .pulse{width:6px;height:6px;border-radius:50%;background:var(--cyan);animation:blink 1.2s step-end infinite;box-shadow:0 0 6px var(--cyan)}
+.popup-title{font-size:20px;font-weight:700;color:var(--green);letter-spacing:1px;margin-bottom:8px}
+.popup-sub{font-size:11px;color:var(--text-dim);margin-bottom:24px;line-height:1.7}
+.popup-features{display:flex;flex-direction:column;gap:14px;margin-bottom:28px}
+.popup-feat{display:flex;align-items:flex-start;gap:16px;padding:16px;border:1px solid rgba(255,255,255,.05);background:rgba(255,255,255,.02);transition:all .25s}
+.popup-feat:hover{border-color:var(--border);background:rgba(0,136,255,.02)}
+.popup-feat-icon{flex-shrink:0;width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;background:rgba(0,136,255,.06);border:1px solid rgba(0,136,255,.15)}
+.popup-feat:nth-child(2) .popup-feat-icon{background:rgba(224,224,224,.06);border-color:rgba(224,224,224,.15)}
+.popup-feat-text{flex:1}
+.popup-feat-name{font-size:13px;font-weight:700;color:#eee;margin-bottom:3px}
+.popup-feat-desc{font-size:11px;color:var(--text-dim);line-height:1.6}
+.popup-dismiss{width:100%;font-family:var(--font);font-size:11px;letter-spacing:3px;text-transform:uppercase;padding:12px 0;border:1px solid var(--green);color:var(--green);background:transparent;cursor:pointer;transition:all .3s}
+.popup-dismiss:hover{background:rgba(0,136,255,.08);box-shadow:var(--glow-g)}
+.popup-close{position:absolute;top:12px;right:14px;background:none;border:none;color:var(--text-dim);font-size:18px;cursor:pointer;transition:color .2s;padding:4px}
+.popup-close:hover{color:var(--red)}
+.popup-ver{text-align:center;margin-top:14px;font-size:9px;color:rgba(255,255,255,.15);letter-spacing:2px}
+body.light-mode .popup-box{background:rgba(248,249,252,.98);border-color:rgba(0,137,74,.15)}
+body.light-mode .popup-feat{border-color:rgba(0,0,0,.06);background:rgba(0,0,0,.015)}
+body.light-mode .popup-feat:hover{background:rgba(0,137,74,.03)}
+body.light-mode .popup-feat-name{color:#1a1a2e}
+@media(max-width:420px){
+  .popup-box{padding:28px 18px 22px}
+  .popup-feat{flex-direction:column;align-items:center;text-align:center;gap:10px}
+}
+
+/* =============================================
+   FOOTER
+============================================= */
+footer{position:relative;z-index:1;padding:60px 48px 40px;border-top:1px solid var(--border);margin-top:60px;text-align:center}
+.footer-ascii{color:rgba(0,136,255,.18);font-size:9px;line-height:1.3;white-space:pre;margin-bottom:36px;overflow-x:auto;letter-spacing:1px}
+.footer-stats{display:flex;justify-content:center;gap:48px;flex-wrap:wrap;margin-bottom:28px}
+.f-stat{text-align:center}
+.f-val{font-size:22px;font-weight:700;color:var(--green);text-shadow:0 0 12px rgba(0,136,255,.4);display:block}
+.f-lbl{font-size:9px;letter-spacing:3px;color:var(--text-dim);text-transform:uppercase;display:block;margin-top:4px}
+.footer-copy{font-size:10px;color:rgba(255,255,255,.2);letter-spacing:1px;line-height:2}
+.footer-copy .fg{color:var(--green)}
+
+/* =============================================
+   RESPONSIVE
+============================================= */
+@media(max-width:768px){
+  nav{padding:12px 20px}
+  .nav-links{display:none}
+  #hero{padding:80px 20px 50px}
+  #modules{padding:60px 20px}
+  .module-grid{grid-template-columns:1fr}
+  #viewer{width:100vw;border-left:none}
+  .viewer-body{padding:20px 16px}
+  .hero-stats{gap:24px}
+  footer{padding:40px 20px}
+  .footer-ascii{font-size:6px}
+}
+@media(max-width:420px){
+  .hero-title{letter-spacing:4px}
+  .viewer-head{padding:12px 14px}
+  .viewer-tabs{padding:8px 14px}
+}
+</style>
+</head>
+<body>
+
+<!-- MATRIX RAIN CANVAS -->
+<canvas id="matrix-canvas"></canvas>
+
+<!-- SCANLINES & NOISE -->
+<div class="scanlines"></div>
+<div class="noise"></div>
+
+<!-- PROGRESS BAR -->
+<div id="progress"></div>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-logo"><span class="nav-logo-bracket">[</span>IP<span class="nav-logo-bracket">]</span>&nbsp;NOTES</div>
+  <ul class="nav-links">
+    <li><a href="#hero">HOME</a></li>
+    <li><a href="#modules">MODULES</a></li>
+    <li><a href="#footer-section">SYSTEM</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="nav-search-btn" onclick="openSearch()">&#x1F50D; SEARCH</button>
+    <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" title="Toggle Light/Dark Mode">
+      <span class="toggle-icon moon">&#x1F319;</span>
+      <span class="toggle-icon sun">&#x2600;</span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO SECTION -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-grid-fade"></div>
+  <div class="hero-inner">
+    <div class="hero-badge"><span class="dot"></span> ACCESS GRANTED &nbsp;// &nbsp;SESSION ACTIVE</div>
+    <div class="hero-title glitch" data-text="IMAGE PROCESSING NOTES">IMAGE PROCESSING NOTES</div>
+    <div class="hero-sub">B.Tech 6th Semester — Image Processing</div>
+    <p class="hero-tagline">ACCESS GRANTED // IP STUDY PORTAL v2.0<span class="cursor-blink">_</span></p>
+
+    <div id="boot-terminal">
+      <div class="tline info" id="bl-0">&gt; INITIALIZING IMAGE PROCESSING ENGINE...</div>
+      <div class="tline" id="bl-1">&gt; Loading image matrix... <span class="ok">[ 6 MODULES FOUND ]</span></div>
+      <div class="tline" id="bl-2">&gt; Calibrating RGB sensors... <span class="ok">[ OK ]</span></div>
+      <div class="tline" id="bl-3">&gt; Applying spatial filters... <span class="warn">[ WARN: High noise detected in Module 1 ]</span></div>
+      <div class="tline" id="bl-4">&gt; Enhancing contrast... <span class="ok">[ HISTOGRAM EQUALIZATION ACTIVE ]</span></div>
+      <div class="tline" id="bl-5">&gt; Restoring degraded image... <span class="ok">[ WIENER FILTER ENGAGED ]</span></div>
+      <div class="tline info" id="bl-6">&gt; SYSTEM READY — Good luck, EveryONE!..</div>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num" id="sc-modules">0</span><span class="stat-label">Modules</span></div>
+      <div class="stat"><span class="stat-num" id="sc-topics">0</span><span class="stat-label">Topics</span></div>
+      <div class="stat"><span class="stat-num" id="sc-questions">0</span><span class="stat-label">Questions</span></div>
+      <div class="stat"><span class="stat-num" id="sc-uptime">00:00</span><span class="stat-label">Uptime</span></div>
+    </div>
+
+    <div class="hero-cta">
+      <a href="#modules" class="btn btn-g">▶ ENTER MODULES</a>
+      <button class="btn btn-c" onclick="openSearch()">&#x2315; SEARCH TOPICS</button>
+    </div>
+  </div>
+</section>
+
+<!-- DRIVE LINK BANNER -->
+<section id="drive-banner">
+  <div class="drive-card">
+    <div class="drive-icon">&#x1F4C4;</div>
+    <div class="drive-info">
+      <div class="drive-label">// PDF Resources</div>
+      <div class="drive-title">Complete IP Notes &mdash; PDF Download</div>
+      <div class="drive-desc">Access the full handwritten/typed PDF notes for all modules. Download for offline study &amp; print.</div>
+    </div>
+    <a href="https://drive.google.com/drive/folders/1PoL2mQE0EHnmifKcE_t156BLnfWvbS4f?usp=sharing" target="_blank" rel="noopener" class="drive-btn" id="drive-link">
+      <span>OPEN DRIVE</span>
+      <span class="arrow">&rarr;</span>
+    </a>
+  </div>
+</section>
+
+<!-- MODULES SECTION -->
+<section id="modules">
+  <div class="sec-header">
+    <div class="sec-label">// KNOWLEDGE BASE</div>
+    <h2 class="sec-title">STUDY <em>MODULES</em></h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="module-grid" id="module-grid"></div>
+</section>
+
+<!-- WHATS NEW POPUP -->
+<div id="popup-overlay">
+  <div class="popup-box">
+    <button class="popup-close" onclick="closePopup()">&times;</button>
+    <div class="popup-badge"><span class="pulse"></span> NEW UPDATE</div>
+    <div class="popup-title">What's New in v2.0</div>
+    <div class="popup-sub">We've added some cool new features to make your study experience even better!</div>
+    <div class="popup-features">
+      <div class="popup-feat">
+        <div class="popup-feat-icon">&#x1F4E5;</div>
+        <div class="popup-feat-text">
+          <div class="popup-feat-name">PDF Notes Download</div>
+          <div class="popup-feat-desc">Access complete IP notes as PDFs via Google Drive. Download for offline study anytime.</div>
+        </div>
+      </div>
+      <div class="popup-feat">
+        <div class="popup-feat-icon">&#x1F3A8;</div>
+        <div class="popup-feat-text">
+          <div class="popup-feat-name">Dark / Light Theme Toggle</div>
+          <div class="popup-feat-desc">Switch between dark hacker mode and a clean light theme using the toggle button in the navbar.</div>
+        </div>
+      </div>
+    </div>
+    <button class="popup-dismiss" onclick="closePopup()">GOT IT, LET'S GO!</button>
+    <div class="popup-ver">IP PORTAL v2.0</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer id="footer-section">
+<pre class="footer-ascii">
+ ____  ____  __  __ ____    _   _  ___ _____ _____ ____
+|  _ \| __ )|  \/  / ___|  | \ | |/ _ \_   _| ____/ ___|
+| | | |  _ \| |\/| \___ \  |  \| | | | || | |  _| \___ \
+| |_| | |_) | |  | |___) | | |\  | |_| || | | |___ ___) |
+|____/|____/|_|  |_|____/  |_| \_|\___/ |_| |_____|____/
+  </pre>
+  <div class="footer-stats">
+    <div class="f-stat"><span class="f-val">65</span><span class="f-lbl">Topics Loaded</span></div>
+    <div class="f-stat"><span class="f-val">6</span><span class="f-lbl">Modules Active</span></div>
+    <div class="f-stat"><span class="f-val" id="uptime-footer">00:00</span><span class="f-lbl">System Uptime</span></div>
+    <div class="f-stat"><span class="f-val">100%</span><span class="f-lbl">Coverage</span></div>
+  </div>
+  <div class="footer-copy">
+    <div><span class="fg">[ IP PORTAL v2.0 ]</span> — B.Tech 6th Semester Study System</div>
+    <div>Author: <span class="fg">Rishav Raj</span> // Subject: <span class="fg">Image Processing</span></div>
+    <div style="margin-top:8px;color:rgba(0,136,255,.15)">root@ip-portal:~$ <span style="animation:blink 1s step-end infinite;color:rgba(0,136,255,.3)">_</span></div>
+  </div>
+</footer>
+
+<!-- VIEWER BACKDROP -->
+<div id="viewer-backdrop" onclick="closeAllPanels()"></div>
+
+<!-- INDEX OVERLAY (QUESTIONS LIST) -->
+<div id="index-overlay">
+  <div class="index-head">
+    <div class="index-bc" id="index-bc">ROOT <span class="bc-sep">€º</span> <span class="bc-active">—</span></div>
+    <button class="index-close" onclick="closeIndex()">✕</button>
+  </div>
+  <div class="index-body">
+    <h2 id="index-title" style="color:var(--green);font-size:24px;margin-bottom:10px;"></h2>
+    <p style="color:var(--text-dim);font-size:12px;margin-bottom:20px;">Select a question below to view the detailed answer.</p>
+    <div id="index-list" class="index-list"></div>
+  </div>
+</div>
+
+<!-- NOTE VIEWER (ANSWER POPUP) -->
+<div id="viewer">
+  <div class="viewer-head">
+    <div class="viewer-bc" id="viewer-bc">ROOT <span class="bc-sep">€º</span> <span class="bc-active">—</span></div>
+    <button class="viewer-close" onclick="closeViewer()">✕</button>
+  </div>
+  <div class="viewer-body">
+    <div class="md" id="viewer-content"></div>
+  </div>
+</div>
+
+<!-- SEARCH OVERLAY -->
+<div id="search-overlay" onclick="handleSearchBackdrop(event)">
+  <div class="search-wrap">
+    <div class="search-bar">
+      <span class="search-icon">✕</span>
+      <input type="text" id="search-input" placeholder="Search modules, topics, concepts..." autocomplete="off">
+      <span class="search-esc">ESC</span>
+    </div>
+    <div class="search-results" id="search-results"></div>
+  </div>
+</div>
+
+<!-- =============================================
+     MARKDOWN CONTENT — LOADED FROM EXTERNAL .md FILES
+============================================= -->
+
+<!-- CDN SCRIPTS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+<!-- MAIN SCRIPT -->
+<script>
+/* =============================================
+   MODULES CONFIGURATION — 9 Modules from .md files
+============================================= */
+const MODULES = [
+  {
+    "id": "m1",
+    "code": "MOD-01",
+    "title": "Introduction",
+    "desc": "Image Processing Concepts",
+    "difficulty": "CORE",
+    "diffClass": "core",
+    "cardClass": "c-green",
+    "btnClass": "eg",
+    "file": "IP_1_Introduction.md",
+    "topics": [
+      {
+        "id": "q1",
+        "title": "Develop a procedure for computing the median of an n \u00d7 n ..."
+      },
+      {
+        "id": "q2",
+        "title": "What is a pixel? Explain 4-neighbour and 8-neighbour of a..."
+      },
+      {
+        "id": "q3",
+        "title": "Explain image sensing and acquisition using Single Sensor..."
+      },
+      {
+        "id": "q4",
+        "title": "Explain Bilinear Interpolation Method."
+      },
+      {
+        "id": "q5",
+        "title": "What is the resolution of an image? Compute the size of a..."
+      },
+      {
+        "id": "q6",
+        "title": "Write down the key stages in Digital Image Processing (DI..."
+      },
+      {
+        "id": "q7",
+        "title": "What is an 8-bit colour image? Explain. What is meant by ..."
+      },
+      {
+        "id": "q8",
+        "title": "What is aliasing in the context of image sampling? What d..."
+      },
+      {
+        "id": "q9",
+        "title": "Differentiate between an image and a scene. Define a digi..."
+      },
+      {
+        "id": "q10",
+        "title": "Brightness discrimination is poor at low levels of illumi..."
+      },
+      {
+        "id": "q11",
+        "title": "What are the storage requirements for: (a) A 500 \u00d7 500 bi..."
+      }
+    ]
+  },
+  {
+    "id": "m2",
+    "code": "MOD-02",
+    "title": "Digital Image Formation",
+    "desc": "Image Processing Concepts",
+    "difficulty": "INTERMEDIATE",
+    "diffClass": "inter",
+    "cardClass": "c-cyan",
+    "btnClass": "ec",
+    "file": "IP_2_Digital_Image_Formation.md",
+    "topics": [
+      {
+        "id": "q1",
+        "title": "What is image sampling? Define saturation in a digital im..."
+      },
+      {
+        "id": "q2",
+        "title": "Write down the various 2D transforms."
+      },
+      {
+        "id": "q3",
+        "title": "What are the basic steps involved in image geometrical tr..."
+      },
+      {
+        "id": "q4",
+        "title": "If an image is rotated by an angle of \u03c0/4, will there be ..."
+      },
+      {
+        "id": "q5",
+        "title": "Explain CMY and CMYK colour models. Explain RGB model and..."
+      },
+      {
+        "id": "q6",
+        "title": "Write the conversion rules for converting RGB to HSI mode..."
+      },
+      {
+        "id": "q7",
+        "title": "What is a CCD array? How is it related to image quality?"
+      },
+      {
+        "id": "q8",
+        "title": "What is image resampling? What is the purpose of image de..."
+      },
+      {
+        "id": "q9",
+        "title": "What is image thinning in character recognition?"
+      },
+      {
+        "id": "q10",
+        "title": "Explain three different transformations used in images. G..."
+      },
+      {
+        "id": "q11",
+        "title": "What do you mean by sampling and quantization? Explain th..."
+      }
+    ]
+  },
+  {
+    "id": "m3",
+    "code": "MOD-03",
+    "title": "Mathematical Preliminaries",
+    "desc": "Image Processing Concepts",
+    "difficulty": "ADVANCED",
+    "diffClass": "adv",
+    "cardClass": "c-pink",
+    "btnClass": "ep",
+    "file": "IP_3_Mathematical_Preliminaries.md",
+    "topics": [
+      {
+        "id": "q1",
+        "title": "Compare one-dimensional and two-dimensional DFT. What is ..."
+      },
+      {
+        "id": "q2",
+        "title": "What is Fourier Transform? What are Fourier Descriptors?"
+      },
+      {
+        "id": "q3",
+        "title": "Show that the Fourier Transform of the autocorrelation fu..."
+      },
+      {
+        "id": "q4",
+        "title": "Discuss briefly the usefulness of the Discrete Cosine Tra..."
+      },
+      {
+        "id": "q5",
+        "title": "Explain Hough Transform and describe its applications in ..."
+      },
+      {
+        "id": "q6",
+        "title": "Discuss global processing via Hough Transform. Explain th..."
+      },
+      {
+        "id": "q7",
+        "title": "Define 4-adjacency, 8-adjacency, and m-adjacency. Explain..."
+      },
+      {
+        "id": "q8",
+        "title": "What are the different methods for calculating the distan..."
+      },
+      {
+        "id": "q9",
+        "title": "What is a unitary transform? Define and derive the equati..."
+      },
+      {
+        "id": "q10",
+        "title": "What is Hadamard Transform? What is Walsh Transform? What..."
+      },
+      {
+        "id": "q11",
+        "title": "What is Contrast Stretching? Differentiate between low-co..."
+      }
+    ]
+  },
+  {
+    "id": "m4",
+    "code": "MOD-04",
+    "title": "Image Enhancement",
+    "desc": "Image Processing Concepts",
+    "difficulty": "EXPERT",
+    "diffClass": "expert",
+    "cardClass": "c-orange",
+    "btnClass": "eo",
+    "file": "IP_4_Image_Enhancement.md",
+    "topics": [
+      {
+        "id": "q1",
+        "title": "What are median filters? What is image enhancement? What ..."
+      },
+      {
+        "id": "q2",
+        "title": "Discuss the limiting effect of repeatedly applying a 3\u00d73 ..."
+      },
+      {
+        "id": "q3",
+        "title": "Explain unsharp masking and high-boost filtering. What is..."
+      },
+      {
+        "id": "q4",
+        "title": "Briefly describe smoothing linear spatial filtering. What..."
+      },
+      {
+        "id": "q5",
+        "title": "What is understood by spatial domain representation? Comp..."
+      },
+      {
+        "id": "q6",
+        "title": "What are spatial-domain and frequency-domain techniques? ..."
+      },
+      {
+        "id": "q7",
+        "title": "What is a Quad-tree? What is salt-and-pepper noise? What ..."
+      },
+      {
+        "id": "q8",
+        "title": "What is homomorphic filtering? Derive the equation for a ..."
+      },
+      {
+        "id": "q9",
+        "title": "What are the steps involved in histogram equalization? Wh..."
+      },
+      {
+        "id": "q10",
+        "title": "Show how Prewitt and Sobel operators can be used to smoot..."
+      },
+      {
+        "id": "q11",
+        "title": "Explain intensity-level slicing. Why is logarithmic (log)..."
+      },
+      {
+        "id": "q12",
+        "title": "What is image averaging? Discuss histogram characteristic..."
+      },
+      {
+        "id": "q13",
+        "title": "Describe edge detection operators. What is point processi..."
+      },
+      {
+        "id": "q14",
+        "title": "Explain the process of image enhancement using arithmetic..."
+      },
+      {
+        "id": "q15",
+        "title": "Describe the algorithm for image sharpening using DFT and..."
+      },
+      {
+        "id": "q16",
+        "title": "Explain the process of image convolution with a suitable ..."
+      }
+    ]
+  },
+  {
+    "id": "m5",
+    "code": "MOD-05",
+    "title": "Image Restoration",
+    "desc": "Image Processing Concepts",
+    "difficulty": "CORE",
+    "diffClass": "core",
+    "cardClass": "c-green",
+    "btnClass": "eg",
+    "file": "IP_5_Image_Restoration.md",
+    "topics": [
+      {
+        "id": "q1",
+        "title": "List the various geometric transformations. Differentiate..."
+      },
+      {
+        "id": "q2",
+        "title": "Explain the image restoration model. Explain the restorat..."
+      },
+      {
+        "id": "q3",
+        "title": "What is threshold coding implementation? What is least-sq..."
+      },
+      {
+        "id": "q4",
+        "title": "Describe the restoration technique using homomorphic filt..."
+      }
+    ]
+  },
+  {
+    "id": "m6",
+    "code": "MOD-06",
+    "title": "Image Segmentation & Compression",
+    "desc": "Image Processing Concepts",
+    "difficulty": "INTERMEDIATE",
+    "diffClass": "inter",
+    "cardClass": "c-cyan",
+    "btnClass": "ec",
+    "file": "IP_6_Image_Segmentation_and_Compression.md",
+    "topics": [
+      {
+        "id": "q1",
+        "title": "Define edge detection. Write down the usefulness of segme..."
+      },
+      {
+        "id": "q2",
+        "title": "What is a boundary descriptor? What is a Fourier descript..."
+      },
+      {
+        "id": "q3",
+        "title": "What is the pattern fitting approach? What is the region ..."
+      },
+      {
+        "id": "q4",
+        "title": "Explain the object recognition process. What is the split..."
+      },
+      {
+        "id": "q5",
+        "title": "What are the common metrics used to assess the performanc..."
+      },
+      {
+        "id": "q6",
+        "title": "Differentiate between image deblurring and image inpainting."
+      },
+      {
+        "id": "q7",
+        "title": "Describe the process of feature extraction in an image."
+      },
+      {
+        "id": "q8",
+        "title": "What is edge linking using local processing?"
+      },
+      {
+        "id": "q9",
+        "title": "Describe image morphing between two images."
+      },
+      {
+        "id": "q10",
+        "title": "What is the difference between lossless and lossy image c..."
+      },
+      {
+        "id": "q11",
+        "title": "What is the full form of JPEG? Define the JPEG compressio..."
+      },
+      {
+        "id": "q12",
+        "title": "What is compression ratio? What are the different image c..."
+      }
+    ]
+  }
+];
+
+// Compute total topics count
+const TOTAL_TOPICS = MODULES.reduce((sum, m) => sum + m.topics.length, 0);
+
+// Cache for fetched md file contents
+const mdCache = {};
+
+/* =============================================
+   MATRIX RAIN
+============================================= */
+(function initMatrix() {
+  const canvas = document.getElementById('matrix-canvas');
+  const ctx = canvas.getContext('2d');
+  const chars = 'IPQLACIDNFJOINBCNFSELECT01INSERT WHERE GROUP HAVING ORDER BY DELETE UPDATE CREATE DROP ALTER PRIMARY KEY FOREIGN UNIQUE NOT NULL INDEX VIEW TRIGGER PROCEDURE FUNCTION SCHEMA CATALOG RELATION TUPLE ATTRIBUTE ENTITY'.split('');
+  let cols, drops;
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    cols = Math.floor(canvas.width / 18);
+    drops = new Array(cols).fill(1);
+  }
+
+  function draw() {
+    ctx.fillStyle = 'rgba(10,10,10,0.06)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#00ff41';
+    ctx.font = '13px JetBrains Mono, monospace';
+    for (let i = 0; i < drops.length; i++) {
+      const char = chars[Math.floor(Math.random() * chars.length)];
+      ctx.fillStyle = Math.random() > 0.92 ? '#00d4ff' : '#00ff41';
+      ctx.fillText(char, i * 18, drops[i] * 18);
+      if (drops[i] * 18 > canvas.height && Math.random() > 0.975) drops[i] = 0;
+      drops[i]++;
+    }
+  }
+
+  resize();
+  window.addEventListener('resize', resize);
+  setInterval(draw, 55);
+})();
+
+/* =============================================
+   BOOT SEQUENCE
+============================================= */
+(function bootSequence() {
+  const lines = document.querySelectorAll('#boot-terminal .tline');
+  lines.forEach((l, i) => {
+    setTimeout(() => l.classList.add('visible'), i * 320 + 400);
+  });
+})();
+
+/* =============================================
+   MARKED.JS CONFIG
+============================================= */
+marked.setOptions({
+  highlight: function(code, lang) {
+    if (lang && hljs.getLanguage(lang)) {
+      return hljs.highlight(code, { language: lang }).value;
+    }
+    return hljs.highlightAuto(code).value;
+  },
+  breaks: true,
+  gfm: true
+});
+
+/* =============================================
+   RENDER MODULE GRID
+============================================= */
+function renderModules() {
+  const grid = document.getElementById('module-grid');
+  grid.innerHTML = '';
+  MODULES.forEach(mod => {
+    const topicItems = mod.topics.map((t, idx) =>
+      `<li onclick="openViewer('${mod.id}','${t.id}');event.stopPropagation()">${t.title}</li>`
+    ).join('');
+
+    const card = document.createElement('div');
+    card.className = `card ${mod.cardClass}`;
+    card.innerHTML = `
+      <div class="card-top">
+        <span class="mod-code">${mod.code}</span>
+        <span class="badge ${mod.diffClass}">${mod.difficulty}</span>
+      </div>
+      <div class="mod-title">${mod.title}</div>
+      <div class="mod-desc">${mod.desc}</div>
+      <ul class="topic-list">${topicItems}</ul>
+      <div class="card-foot">
+        <span class="topic-count"><b>${mod.topics.length}</b> Topics</span>
+        <button class="enter-btn ${mod.btnClass}" onclick="openModuleIndex('${mod.id}');event.stopPropagation()">ENTER ▶</button>
+      </div>`;
+    card.addEventListener('click', () => openModuleIndex(mod.id));
+    grid.appendChild(card);
+  });
+
+  // Count-up animation for stats
+  setTimeout(() => animateCountUp('sc-modules', MODULES.length, 0), 900);
+  setTimeout(() => animateCountUp('sc-topics', TOTAL_TOPICS, 0), 1000);
+  setTimeout(() => animateCountUp('sc-questions', TOTAL_TOPICS, 0), 1100);
+}
+
+function animateCountUp(id, target, current) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const step = Math.ceil(target / 20);
+  if (current < target) {
+    el.textContent = current;
+    setTimeout(() => animateCountUp(id, target, Math.min(current + step, target)), 40);
+  } else {
+    el.textContent = target;
+  }
+}
+
+/* =============================================
+   FETCH & PARSE MD FILES
+============================================= */
+async function fetchModuleContent(mod) {
+  if (mdCache[mod.file]) return mdCache[mod.file];
+  try {
+    const response = await fetch(mod.file);
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const text = await response.text();
+    mdCache[mod.file] = text;
+    return text;
+  } catch (err) {
+    console.error(`Failed to load ${mod.file}:`, err);
+    return null;
+  }
+}
+
+/**
+ * Extract the Nth question section from an md file.
+ * Questions start with "## “ Question N:" or "## “ QN:" or "## ðŸ”‘ Key Concepts"
+ * We split on ## headings and return the Nth section (1-indexed by topic id).
+ */
+function extractQuestion(mdText, topicId) {
+  // topicId is like 'q1', 'q2', etc. Extract the number.
+  const qNum = parseInt(topicId.replace('q', ''));
+
+  // Split the markdown into sections starting with "## "
+  // We use regex with global flag to find all matches, then slice string
+  const headings = [...mdText.matchAll(/^## /gm)];
+  const sections = [];
+  
+  for (let i = 0; i < headings.length; i++) {
+    const startIdx = headings[i].index;
+    const endIdx = i + 1 < headings.length ? headings[i + 1].index : mdText.length;
+    sections.push(mdText.slice(startIdx, endIdx));
+  }
+
+  // Find the section that actually contains "❓ Question <qNum>:"
+  const targetRegex = new RegExp(`^##.*Question\\s+${qNum}\\b`, 'im');
+  const targetSection = sections.find(s => targetRegex.test(s));
+
+  if (targetSection) {
+    return targetSection;
+  }
+
+  // Fallback: return entire file or a not found message
+  return "### ⚠️ Content Not Found\n\nCould not extract the specific question from the markdown file.";
+}
+
+/* =============================================
+   NOTE VIEWER
+============================================= */
+let currentModule = null;
+
+function openModuleIndex(moduleId) {
+  const mod = MODULES.find(m => m.id === moduleId);
+  if (!mod) return;
+  
+  document.getElementById('index-bc').innerHTML = `ROOT <span class="bc-sep">€º</span> <span class="bc-active">${mod.code}</span>`;
+  document.getElementById('index-title').textContent = mod.title;
+  
+  document.getElementById('index-list').innerHTML = mod.topics.map((t, idx) => `
+    <div class="index-item" onclick="openViewer('${mod.id}','${t.id}')">
+      <strong style="color:var(--green)">Q${idx+1}:</strong> ${t.title}
+    </div>
+  `).join('');
+
+  document.getElementById('index-overlay').classList.add('open');
+  document.getElementById('viewer-backdrop').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function openViewer(moduleId, topicId) {
+  const mod = MODULES.find(m => m.id === moduleId);
+  if (!mod) return;
+  currentModule = mod;
+
+  // Find topic
+  const topic = mod.topics.find(t => t.id === topicId);
+  const topicTitle = topic ? topic.title.substring(0, 40) + '...' : topicId;
+
+  // Breadcrumb
+  document.getElementById('viewer-bc').innerHTML =
+    `ROOT <span class="bc-sep">€º</span> ${mod.code} <span class="bc-sep">€º</span> <span class="bc-active">${topicTitle}</span>`;
+
+  // Load content
+  loadContent(mod.id, topicId);
+
+  // Open panel
+  document.getElementById('viewer').classList.add('open');
+  document.getElementById('viewer-backdrop').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeViewer() {
+  document.getElementById('viewer').classList.remove('open');
+  // If index is NOT open, close backdrop too
+  if (!document.getElementById('index-overlay').classList.contains('open')) {
+    document.getElementById('viewer-backdrop').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+}
+
+function closeIndex() {
+  document.getElementById('index-overlay').classList.remove('open');
+  if (!document.getElementById('viewer').classList.contains('open')) {
+    document.getElementById('viewer-backdrop').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+}
+
+function closeAllPanels() {
+  closeViewer();
+  closeIndex();
+}
+
+// Close with Escape key
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeAllPanels();
+    closeSearch();
+  }
+});
+
+async function loadContent(moduleId, topicId) {
+  const contentEl = document.getElementById('viewer-content');
+  const mod = MODULES.find(m => m.id === moduleId);
+  if (!mod) return;
+
+  // Show loading state
+  contentEl.innerHTML = `<div class="md"><p style="color:var(--cyan)">⟳ Loading content from ${mod.file}...</p></div>`;
+  contentEl.className = 'md';
+
+  // Fetch the md file
+  const mdText = await fetchModuleContent(mod);
+  if (!mdText) {
+    contentEl.innerHTML = `<div class="md"><p style="color:var(--red)">✕ Failed to load ${mod.file}. Make sure the file exists in the same directory.</p></div>`;
+    return;
+  }
+
+  // Extract the relevant question section
+  const section = extractQuestion(mdText, topicId);
+
+  // Render markdown
+  contentEl.innerHTML = marked.parse(section);
+  contentEl.className = 'md';
+
+  // Apply highlight.js to any code blocks not already highlighted
+  contentEl.querySelectorAll('pre code').forEach(block => {
+    hljs.highlightElement(block);
+  });
+
+  // Scroll to top
+  contentEl.parentElement.scrollTop = 0;
+}
+
+function closeViewer() {
+  document.getElementById('viewer').classList.remove('open');
+  document.getElementById('viewer-backdrop').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Close with Escape key
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeViewer();
+    closeSearch();
+  }
+});
+
+/* =============================================
+   SEARCH
+============================================= */
+// Build search index
+const searchIndex = [];
+MODULES.forEach(mod => {
+  mod.topics.forEach(t => {
+    searchIndex.push({ moduleId: mod.id, topicId: t.id, code: mod.code, title: t.title, modTitle: mod.title });
+  });
+  // Also add module itself
+  searchIndex.push({ moduleId: mod.id, topicId: 'q1', code: mod.code, title: mod.title, modTitle: mod.title });
+});
+
+let searchFocusIdx = -1;
+
+function openSearch() {
+  document.getElementById('search-overlay').classList.add('open');
+  document.getElementById('search-input').value = '';
+  document.getElementById('search-results').innerHTML = '';
+  searchFocusIdx = -1;
+  setTimeout(() => document.getElementById('search-input').focus(), 50);
+}
+
+function closeSearch() {
+  document.getElementById('search-overlay').classList.remove('open');
+}
+
+function handleSearchBackdrop(e) {
+  if (e.target === document.getElementById('search-overlay')) closeSearch();
+}
+
+document.getElementById('search-input').addEventListener('input', function() {
+  const q = this.value.toLowerCase().trim();
+  const resultsEl = document.getElementById('search-results');
+  searchFocusIdx = -1;
+
+  if (!q) { resultsEl.innerHTML = ''; return; }
+
+  const results = searchIndex.filter(item =>
+    item.title.toLowerCase().includes(q) ||
+    item.code.toLowerCase().includes(q) ||
+    item.modTitle.toLowerCase().includes(q)
+  ).slice(0, 15);
+
+  if (results.length === 0) {
+    resultsEl.innerHTML = `<div class="s-empty">No results for "${q}"</div>`;
+    return;
+  }
+
+  resultsEl.innerHTML = results.map((r, i) =>
+    `<div class="s-result" data-mid="${r.moduleId}" data-tid="${r.topicId}" onclick="selectResult('${r.moduleId}','${r.topicId}')">
+      <span class="s-mod">${r.code}</span>
+      <span class="s-topic">${r.title}</span>
+    </div>`
+  ).join('');
+});
+
+document.getElementById('search-input').addEventListener('keydown', function(e) {
+  const results = document.querySelectorAll('.s-result');
+  if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    searchFocusIdx = Math.min(searchFocusIdx + 1, results.length - 1);
+    results.forEach((r, i) => r.classList.toggle('focused', i === searchFocusIdx));
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    searchFocusIdx = Math.max(searchFocusIdx - 1, 0);
+    results.forEach((r, i) => r.classList.toggle('focused', i === searchFocusIdx));
+  } else if (e.key === 'Enter') {
+    if (searchFocusIdx >= 0 && results[searchFocusIdx]) {
+      const r = results[searchFocusIdx];
+      selectResult(r.dataset.mid, r.dataset.tid);
+    }
+  }
+});
+
+function selectResult(moduleId, topicId) {
+  closeSearch();
+  openViewer(moduleId, topicId);
+}
+
+/* =============================================
+   SCROLL PROGRESS BAR
+============================================= */
+window.addEventListener('scroll', () => {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+  document.getElementById('progress').style.width = pct + '%';
+});
+
+/* =============================================
+   UPTIME COUNTER
+============================================= */
+(function uptimeCounter() {
+  const start = Date.now();
+  function update() {
+    const elapsed = Math.floor((Date.now() - start) / 1000);
+    const m = String(Math.floor(elapsed / 60)).padStart(2, '0');
+    const s = String(elapsed % 60).padStart(2, '0');
+    const str = `${m}:${s}`;
+    const el1 = document.getElementById('sc-uptime');
+    const el2 = document.getElementById('uptime-footer');
+    if (el1) el1.textContent = str;
+    if (el2) el2.textContent = str;
+  }
+  setInterval(update, 1000);
+})();
+
+/* =============================================
+   CARD TILT EFFECT (Vanilla JS)
+============================================= */
+function initTilt() {
+  document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const cx = rect.width / 2;
+      const cy = rect.height / 2;
+      const rx = (y - cy) / cy * 5;
+      const ry = (cx - x) / cx * 5;
+      card.style.transform = `translateY(-5px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+    });
+  });
+}
+
+/* =============================================
+   THEME TOGGLE (Dark / Light)
+============================================= */
+function toggleTheme() {
+  const body = document.body;
+  const btn = document.getElementById('theme-toggle');
+  const isLight = body.classList.toggle('light-mode');
+  btn.classList.toggle('light', isLight);
+  localStorage.setItem('ip-theme', isLight ? 'light' : 'dark');
+}
+
+function initTheme() {
+  const saved = localStorage.getItem('ip-theme');
+  if (saved === 'light') {
+    document.body.classList.add('light-mode');
+    document.getElementById('theme-toggle').classList.add('light');
+  }
+}
+
+/* =============================================
+   WHATS NEW POPUP
+============================================= */
+let popupTimeout;
+
+function showPopup() {
+  const overlay = document.getElementById('popup-overlay');
+  setTimeout(() => {
+    overlay.classList.add('open');
+    // Force reflow for opacity transition
+    overlay.offsetHeight;
+    overlay.style.opacity = '1';
+    
+    // Auto-close after 25 seconds
+    popupTimeout = setTimeout(() => {
+      closePopup();
+    }, 25000);
+  }, 2800);
+}
+
+function closePopup() {
+  const overlay = document.getElementById('popup-overlay');
+  if (popupTimeout) clearTimeout(popupTimeout);
+  
+  overlay.style.opacity = '0';
+  setTimeout(() => {
+    overlay.classList.remove('open');
+    overlay.style.opacity = '';
+  }, 400);
+}
+
+// Close popup on backdrop click
+document.getElementById('popup-overlay').addEventListener('click', function(e) {
+  if (e.target === this) closePopup();
+});
+
+/* =============================================
+   INIT
+============================================= */
+document.addEventListener('DOMContentLoaded', () => {
+  initTheme();
+  renderModules();
+  setTimeout(initTilt, 700);
+  showPopup();
+});
+</script>
+</body>
+</html>
